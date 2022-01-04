@@ -1,3 +1,32 @@
+# Interns Onboarding Project - FE
+
+This is a boiler plate setup of interns onboarding project for FrontEnd.
+
+### This project includes
+1. React
+2. Redux
+3. Styled-Components
+4. Basic Testing Setup
+
+You can choose to add TypeScript if you are familiar and feel like working with it.
+
+**Note: You can choose to ignore working with redux and styled-components**
+
+### Prerequisites(if you don't have node)
+
+Check is already have node with `npm -v` it will display the version of node you have on your system.
+
+Download and install Node.js from nodejs.org/en/download/
+After installation use
+`node -v` to check the node version installed
+`npm -v` to check the npm version installed
+**Note: If you don't get version then you probably messed up the installation. Please reinstall node.**
+
+**Recommended Editor: VS Code**
+
+By default **npm** will be installed along with node. If not, install the latest version of npm. This will be useful when running all the build commands. Run the following in a command line, either your IDE's Terminal window or in a Windows Command Prompt.
+`npm install --global npm@latest`
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts
@@ -26,16 +55,6 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## Learn More
 
