@@ -16,10 +16,12 @@ You can choose to add TypeScript if you are familiar and feel like working with 
 
 Check is already have node with `npm -v` it will display the version of node you have on your system.
 
-Download and install Node.js from nodejs.org/en/download/
+Download and install Node.js from [here](nodejs.org/en/download/).
+
 After installation use
 `node -v` to check the node version installed
 `npm -v` to check the npm version installed
+
 **Note: If you don't get version then you probably messed up the installation. Please reinstall node.**
 
 **Recommended Editor: VS Code**
@@ -28,6 +30,14 @@ By default **npm** will be installed along with node. If not, install the latest
 `npm install --global npm@latest`
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+
+
+## Steps to get started with this repo
+
+1. Clone this repo. Please refer to [this doc](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) if you need help in cloning the repo.
+2. Change the working directory to cloned repo directory. Hint: Use `cd interns-fe-onboarding-boilerplate`.
+3. Run `npm install` to install all the dependecy.
+4. Run `npm start` to run the project. It will run on port 3000 by default if you don't have anything already running on that port, in that case you can choose and run on other port.
 
 ## Available Scripts
 
