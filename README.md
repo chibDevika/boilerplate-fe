@@ -1,6 +1,6 @@
 # Interns Onboarding Project - FE
 
-This is a boiler plate setup of interns onboarding project for FrontEnd.
+This is a boilerplate setup of interns onboarding project for FrontEnd.
 
 ### This project includes
 1. React
@@ -8,15 +8,15 @@ This is a boiler plate setup of interns onboarding project for FrontEnd.
 3. Styled-Components
 4. Basic Testing Setup
 
-You can choose to add TypeScript if you are familiar and feel like working with it.
+You can choose to add **TypeScript** if you are familiar and feel like working with it.
 
 **Note: You can choose to ignore working with redux and styled-components**
 
 ### Prerequisites(if you don't have node)
 
-Check is already have node with `npm -v` it will display the version of node you have on your system.
+Check if you already have node with `npm -v` it will display the version of node that you have on your system.
 
-Download and install Node.js from [here](nodejs.org/en/download/).
+Download and install Node.js from [here](nodejs.org/en/download/) if you don't have Node.
 
 After installation use
 `node -v` to check the node version installed
@@ -24,19 +24,16 @@ After installation use
 
 **Note: If you don't get version then you probably messed up the installation. Please reinstall node.**
 
-**Recommended Editor: VS Code**
-
 By default **npm** will be installed along with node. If not, install the latest version of npm. This will be useful when running all the build commands. Run the following in a command line, either your IDE's Terminal window or in a Windows Command Prompt.
 `npm install --global npm@latest`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
-
+**Recommended Editor: VS Code**
 
 ## Steps to get started with this repo
 
 1. Clone this repo. Please refer to [this doc](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) if you need help in cloning the repo.
 2. Change the working directory to cloned repo directory. Hint: Use `cd interns-fe-onboarding-boilerplate`.
-3. Run `npm install` to install all the dependecy.
+3. Run `npm install` to install all the dependecies.
 4. Run `npm start` to run the project. It will run on port 3000 by default if you don't have anything already running on that port, in that case you can choose and run on other port.
 
 ## Available Scripts
