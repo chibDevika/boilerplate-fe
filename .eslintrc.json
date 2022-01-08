@@ -1,0 +1,77 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "react-app",
+    "plugin:react/recommended",
+    "airbnb",
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "prettier"],
+  "rules": {
+    "react-hooks/exhaustive-deps": "error",
+    "react/jsx-boolean-value": 0,
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "react/state-in-constructor": "off",
+    "react/jsx-closing-bracket-location": [
+      1,
+      { "selfClosing": "line-aligned", "nonEmpty": "after-props" }
+    ],
+    "camelcase": "off",
+    "react/prop-types": 0,
+    "react/jsx-props-no-spreading": [0],
+    "import/prefer-default-export": 0,
+    "no-unused-vars": "warn",
+    "react/jsx-one-expression-per-line": 0,
+    "no-plusplus": 0,
+    "no-console": ["error"],
+    "react/jsx-wrap-multilines": 0,
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": ["draft", "accumulator"]
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["node_modules", "src/"]
+      }
+    }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.stories.*"],
+      "rules": {
+        "import/no-anonymous-default-export": "off"
+      }
+    }
+  ]
+}
