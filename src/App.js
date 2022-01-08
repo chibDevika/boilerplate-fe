@@ -7,7 +7,7 @@ import { auth } from './Firebase/firebase';
 function App() {
   return (
     <div className="App">
-      <Home />
+      <Signin />
     </div>
   );
   // const user = auth.currentUser;
