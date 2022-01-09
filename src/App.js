@@ -5,26 +5,20 @@ import Signin from './Signin';
 import { auth } from './Firebase/firebase';
 
 function App() {
+  const user = auth.currentUser;
+  // need to implement routing
+  if (user) {
+    return (
+      <div className="App">
+        <Home />
+      </div>
+    );
+  }
   return (
     <div className="App">
       <Signin />
     </div>
   );
-  // const user = auth.currentUser;
-
-  // if (user) {
-  //   return (
-  //     <div className="App">
-  //       <Home />
-  //     </div>
-  //   );
-  // } else {
-  //   return (
-  //     <div className="App">
-  //       <Home />
-  //     </div>
-  //   );
-  // }
 }
 
 export default App;
