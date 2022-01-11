@@ -1,36 +1,34 @@
-import React, { Component } from 'react';
-import Button from '@mui/material/Button';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from './Firebase/firebase';
-import Home from './Home';
+import React from 'react';
+import { GoogleLogin } from 'react-google-login';
+import { refreshTokenSetup } from './refreshToken';
+
+const clientId =
+  '775627361104-rldutbneq1qi1floukp4sgauct6qg4at.apps.googleusercontent.com';
 
 function Signin() {
-  const signInWithGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        const { user } = result;
-        return console.log(user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const { email } = error;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-      })
-      .finally(() => {
-        return <Home />;
-      });
+  const onSuccess = (response) => {
+    console.log(response.profileObj);
+    refreshTokenSetup(response);
+  };
+
+  const onFailure = (response) => {
+    console.log('Login failed: ', response);
   };
 
   return (
-    <div className="header">
-      <h1 className="App-header">Sign In to continue!</h1>
-      <Button variant="contained" onClick={signInWithGoogle}>
-        Sign In
-      </Button>
+    <div>
+      <GoogleLogin
+        clientId={clientId}
+        hostedDomain="squadstack.com"
+        responseType="id_token"
+        buttonText="Login"
+        uxMode="popup"
+        onSuccess={onSuccess}
+        onFailure={onFailure}
+        cookiePolicy="http://localhost:3000"
+        style={{ marginTop: '100px' }}
+        isSignedIn={true}
+      />
     </div>
   );
 }
