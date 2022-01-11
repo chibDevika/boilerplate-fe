@@ -4,9 +4,8 @@ import { GoogleLogout } from 'react-google-login';
 const clientId =
   '775627361104-rldutbneq1qi1floukp4sgauct6qg4at.apps.googleusercontent.com';
 
-function homepage() {
-  const onSuccess = () => {
-    console.log('Logout successful');
+function Signout() {
+  const onSuccess = (res) => {
   };
 
   return (
@@ -21,4 +20,4 @@ function homepage() {
   );
 }
 
-export default homepage;
+export default Signout;

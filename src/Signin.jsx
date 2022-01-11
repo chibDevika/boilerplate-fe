@@ -7,12 +7,10 @@ const clientId =
 
 function Signin() {
   const onSuccess = (response) => {
-    console.log(response.profileObj);
     refreshTokenSetup(response);
   };
 
-  const onFailure = (response) => {
-    console.log('Login failed: ', response);
+  const onFailure = (res) => {
   };
 
   return (

@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
-import Homepage from './homepage';
+import Signout from './Signout';
 import Signin from './Signin';
 
 function App() {
   return (
     <div className="App">
       <Signin />
-      <Homepage />
+      <Signout />
     </div>
   );
 }
