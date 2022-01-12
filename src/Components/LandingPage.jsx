@@ -41,7 +41,7 @@ function LandingPage() {
           onSuccess={onSuccess}
           onFailure={onFailure}
           cookiePolicy="http://localhost:3000"
-          style={{ marginTop: '100px' }}
+          style={{ marginTop: '1em' }}
           isSignedIn={true}
         />
       </div>

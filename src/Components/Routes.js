@@ -5,14 +5,12 @@ import LandingPage from './LandingPage';
 
 function RoutesDir() {
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/dashboard" element={<HomePage />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/dashboard" element={<HomePage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
