@@ -8,9 +8,6 @@ import RoutesDir from './Components/RoutesDir';
 function App() {
   return (
     <div className="App">
-      <Container>
-        <LandingPage />
-      </Container>
       <div className="RoutesDir">
         <RoutesDir />
       </div>
