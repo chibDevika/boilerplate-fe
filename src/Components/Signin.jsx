@@ -17,7 +17,7 @@ function Signin() {
   return (
     <div>
       <GoogleLogin
-        clientId={client_id}
+        clientId={process.env.CLIENT_ID}
         hostedDomain="squadstack.com"
         // responseType="id_token"
         buttonText="Sign In"
