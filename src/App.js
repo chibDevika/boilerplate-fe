@@ -1,13 +1,19 @@
 import React from 'react';
 import './App.css';
-import Signout from './Signout';
-import Signin from './Signin';
+import Container from '@mui/material/Container';
+import LandingPage from './Components/LandingPage';
+import HomePage from './Components/HomePage';
+import RoutesDir from './Components/RoutesDir';
 
 function App() {
   return (
     <div className="App">
-      <Signin />
-      <Signout />
+      <Container>
+        <LandingPage />
+      </Container>
+      <div className="RoutesDir">
+        <RoutesDir />
+      </div>
     </div>
   );
 }

@@ -26,6 +26,26 @@
   color: rgb(112, 76, 182);
 }
 
+.card {
+  padding: 25px;
+  display: box;
+  height: 600px;
+  width: 300px;
+  margin: auto;
+  margin-top: 50px;
+  justify-content: center;
+}
+
+.cardContent {
+  padding: auto;
+  height: 600px;
+}
+
+.signout{ 
+  width: fit-content;
+  flex-direction: row-reverse;
+}
+
 @keyframes App-logo-float {
   0% {
     transform: translateY(0);

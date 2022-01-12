@@ -1,25 +1,25 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
-import { refreshTokenSetup } from './refreshToken';
-
-const clientId =
-  '775627361104-rldutbneq1qi1floukp4sgauct6qg4at.apps.googleusercontent.com';
+import { refreshTokenSetup } from '../refreshToken';
+import HomePage from './HomePage';
 
 function Signin() {
+  const navigate = useNavigate();
   const onSuccess = (response) => {
     refreshTokenSetup(response);
+    navigate('/HomePage');
   };
 
-  const onFailure = (res) => {
-  };
+  const onFailure = () => {};
 
   return (
     <div>
       <GoogleLogin
-        clientId={clientId}
+        clientId={process.env.CLIENT_ID}
         hostedDomain="squadstack.com"
         responseType="id_token"
-        buttonText="Login"
+        buttonText="Sign In"
         uxMode="popup"
         onSuccess={onSuccess}
         onFailure={onFailure}
