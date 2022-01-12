@@ -12,7 +12,7 @@ function LandingPage() {
   const navigate = useNavigate();
   const onSuccess = (response) => {
     refreshTokenSetup(response);
-    navigate('/HomePage');
+    navigate('/dashboard');
   };
 
   const onFailure = () => {};

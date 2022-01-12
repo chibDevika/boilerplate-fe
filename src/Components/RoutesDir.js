@@ -9,7 +9,7 @@ function RoutesDir() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/HomePage" element={<HomePage />} />
+          <Route path="/dashboard" element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </div>
