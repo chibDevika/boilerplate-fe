@@ -7,8 +7,6 @@ import { GoogleLogin } from 'react-google-login';
 import { refreshTokenSetup } from '../refreshToken';
 
 function LandingPage() {
-  const client_id =
-    '775627361104-rldutbneq1qi1floukp4sgauct6qg4at.apps.googleusercontent.com';
   const navigate = useNavigate();
   const onSuccess = (response) => {
     refreshTokenSetup(response);
@@ -33,7 +31,7 @@ function LandingPage() {
       </Typography>
       <div>
         <GoogleLogin
-          clientId={client_id}
+          clientId={process.env.REACT_APP_CLIENT_ID}
           hostedDomain="squadstack.com"
           responseType="id_token"
           buttonText="Sign In"

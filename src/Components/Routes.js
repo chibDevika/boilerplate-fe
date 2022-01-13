@@ -1,17 +1,17 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes as ReactRoutes, Route } from 'react-router-dom';
 import HomePage from './HomePage';
 import LandingPage from './LandingPage';
 
-function RoutesDir() {
+function Routes() {
   return (
     <BrowserRouter>
-      <Routes>
+      <ReactRoutes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard" element={<HomePage />} />
-      </Routes>
+      </ReactRoutes>
     </BrowserRouter>
   );
 }
 
-export default RoutesDir;
+export default Routes;

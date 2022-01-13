@@ -7,8 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { GoogleLogout } from 'react-google-login';
 
 function HomePage() {
-  const cl =
-    '775627361104-rldutbneq1qi1floukp4sgauct6qg4at.apps.googleusercontent.com';
   const navigate = useNavigate();
 
   const onSuccess = () => {
@@ -22,7 +20,7 @@ function HomePage() {
         <Toolbar>
           <div>
             <GoogleLogout
-              clientId={cl}
+              clientId={process.env.REACT_APP_CLIENT_ID}
               hostedDomain="squadstack.com"
               buttonText="Logout"
               onLogoutSuccess={onSuccess}
