@@ -1,10 +1,13 @@
 import React from 'react';
 import './App.css';
+import Routes from './Components/Routes';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">Welcome to SquadStack!</header>
+      <div className="routesDir">
+        <Routes />
+      </div>
     </div>
   );
 }
