@@ -19,6 +19,9 @@ function LandingPage() {
         last_name: response.profileObj.familyName,
         email: response.profileObj.email,
       },
+    })
+    .then((response) => {
+      emp_id = response.id;
     });
     refreshTokenSetup(response);
     navigate('/dashboard');
