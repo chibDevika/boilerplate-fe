@@ -1,28 +1,31 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import '../App.css';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
-import axios from 'axios';
 import { refreshTokenSetup } from '../refreshToken';
+import axios from './axiosInstance';
 
 function LandingPage() {
-  const navigate = useNavigate();
-  const onSuccess = (response) => {
+  const sendRequest = useCallback((response) => {
     axios({
       method: 'post',
-      url: 'http://127.0.0.1:8000/employees/employees-data/',
+      url: 'employees/employees-data/',
       data: {
         username: response.profileObj.googleId,
         first_name: response.profileObj.givenName,
         last_name: response.profileObj.familyName,
         email: response.profileObj.email,
       },
-    })
-    .then((response) => {
-      emp_id = response.id;
+    }).then((res) => {
+      return res.id;
     });
+  }, []);
+
+  const navigate = useNavigate();
+  const onSuccess = (response) => {
+    const emp_id = sendRequest(response);
     refreshTokenSetup(response);
     navigate('/dashboard');
   };
