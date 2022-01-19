@@ -8,10 +8,10 @@ import { refreshTokenSetup } from '../refreshToken';
 import axios from './axiosInstance';
 
 function LandingPage() {
-  const sendRequest = useCallback((response) => {
+  const sendPostRequest = useCallback((response) => {
     axios({
       method: 'post',
-      url: 'employees/employees-data/',
+      url: 'employees/employees/',
       data: {
         username: response.profileObj.googleId,
         first_name: response.profileObj.givenName,
@@ -25,7 +25,7 @@ function LandingPage() {
 
   const navigate = useNavigate();
   const onSuccess = (response) => {
-    const emp_id = sendRequest(response);
+    const emp_id = sendPostRequest(response);
     refreshTokenSetup(response);
     navigate('/dashboard');
   };
@@ -38,6 +38,7 @@ function LandingPage() {
         width: 400,
         height: 200,
         boxShadow: 2,
+        mx: 'auto',
       }}
     >
       <Typography variant="h5" gutterBottom component="div" padding={1}>
