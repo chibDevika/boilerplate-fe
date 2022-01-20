@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import '../App.css';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -19,13 +19,13 @@ function LandingPage() {
         email: response.profileObj.email,
       },
     }).then((res) => {
-      return res.id;
+      localStorage.setItem('emp_id', res.id);
     });
   }, []);
 
   const navigate = useNavigate();
   const onSuccess = (response) => {
-    const emp_id = sendPostRequest(response);
+    sendPostRequest(response);
     refreshTokenSetup(response);
     navigate('/dashboard');
   };

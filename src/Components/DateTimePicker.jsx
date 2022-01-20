@@ -1,20 +1,17 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DateTimePicker from '@mui/lab/DateTimePicker';
 import MomentUtils from '@date-io/moment';
+import DateTimePicker from '@mui/lab/DateTimePicker';
 
-export default function DateTimePickerComp() {
-  const [value, setValue] = React.useState(new Date());
-    
-
+export default function DateTimePickerComp(props) {
   return (
     <LocalizationProvider dateAdapter={MomentUtils}>
       <DateTimePicker
         renderInput={(params) => <TextField {...params} />}
-        value={value}
-        onChange={(newValue) => {
-          setValue(newValue);
+        value={props.date}
+        onChange={(value) => {
+          props.updateDate(value);
         }}
       />
     </LocalizationProvider>

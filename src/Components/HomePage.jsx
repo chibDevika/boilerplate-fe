@@ -9,11 +9,16 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogout } from 'react-google-login';
+import moment from 'moment';
 import DateTimePickerComp from './DateTimePicker';
 import MyCalendar from './Calendar';
+import axios from './axiosInstance';
 
 function HomePage() {
-  const [reason, setReason] = useState("");
+  const [reason, setReason] = useState('');
+  const [start, setStartDate] = useState(moment());
+  const [end, setEndDate] = useState(moment());
+
   const navigate = useNavigate();
 
   const onSuccess = () => {
@@ -21,20 +26,20 @@ function HomePage() {
     navigate('/');
   };
 
-  // const saveLeave = ((response) => {
-  //   axios({
-  //     method: 'post',
-  //     url: 'leaves/leaves/',
-  //     data: {
-  //       employee: ,
-  //       started_at: ,
-  //       ended_at: ,
-  //       reason: ,
-  //     },
-  //   }).then((res) => {
-  //     return res.id;
-  //   });
-  // });
+  const saveLeave = () => {
+    axios({
+      method: 'post',
+      url: 'leaves/leaves/',
+      data: {
+        employee: localStorage.getItem('emp_id'),
+        started_at: moment(start).format('YYYY-MM-DD HH:mm:ss'),
+        ended_at: moment(end).format('YYYY-MM-DD HH:mm:ss'),
+        reason: { reason }['reason'],
+      },
+    }).then((res) => {
+      return res.id;
+    });
+  };
 
   return (
     <div>
@@ -60,7 +65,7 @@ function HomePage() {
 
       <Box
         sx={{
-          mx: 'auto',
+          margin: 'auto',
         }}
       >
         <div
@@ -70,7 +75,9 @@ function HomePage() {
           }}
         >
           <Typography variant="h6">Start Date and Time</Typography>
-          <DateTimePickerComp />
+          <DateTimePickerComp
+            date={start}
+            updateDate={start => setStartDate(moment(start))} />   
         </div>
         <div
           style={{
@@ -79,7 +86,10 @@ function HomePage() {
           }}
         >
           <Typography variant="h6">End Date and Time</Typography>
-          <DateTimePickerComp />
+          <DateTimePickerComp
+            date={end}
+            updateDate={end => setEndDate(moment(end))}
+          />
         </div>
         <div
           style={{
@@ -93,11 +103,13 @@ function HomePage() {
             label="Mention your reason"
             variant="outlined"
             onChange={(input) => {
-              setReason(input)
+              setReason(input.target.value);
             }}
           />
         </div>
-        <Button variant="contained">Save Leave</Button>
+        <Button variant="contained" onClick={saveLeave}>
+          Save Leave
+        </Button>
       </Box>
       <Box sx={{ flexGrow: 2 }} margin="auto" mt={8}>
         <MyCalendar />
