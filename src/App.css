@@ -27,7 +27,19 @@
 }
 
 .logoutButton {
-  margin-top: 45em;
+  margin-top: 45rem;
+}
+
+.landingPageBox {
+  width: 400;
+  height: 200;
+  box-shadow: 2;
+  max-width: auto;
+}
+
+.inputs {
+  display: flex;
+  align-items: center;
 }
 
 @keyframes App-logo-float {

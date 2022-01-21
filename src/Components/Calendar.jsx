@@ -10,10 +10,10 @@ function myCalendar() {
   const [myEvents, setMyEvents] = useState([]);
 
   useEffect(() => {
-    eventComponent();
+    updateCalendar();
   }, []);
 
-  const eventComponent = useCallback(() => {
+  const updateCalendar = useCallback(() => {
     axios({
       method: 'get',
       url: 'leaves/leaves/',

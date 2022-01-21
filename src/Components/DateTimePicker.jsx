@@ -4,7 +4,11 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import MomentUtils from '@date-io/moment';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 
-export default function DateTimePickerComp(props) {
+export default function DateTimePickerComponent(props) {
+  
+  function handleChange(event) {
+    props.updateDate(event.target.value);
+  }
   return (
     <LocalizationProvider dateAdapter={MomentUtils}>
       <DateTimePicker

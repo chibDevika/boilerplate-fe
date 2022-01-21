@@ -10,19 +10,20 @@ import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogout } from 'react-google-login';
 import moment from 'moment';
-import DateTimePickerComp from './DateTimePicker';
+import DateTimePickerComponent from './DateTimePicker';
 import MyCalendar from './Calendar';
 import axios from './axiosInstance';
 
 function HomePage() {
-  const [reason, setReason] = useState('');
+  const [reason, setReason] = useState(' ');
   const [start, setStartDate] = useState(moment());
   const [end, setEndDate] = useState(moment());
 
   const navigate = useNavigate();
 
   const onSuccess = () => {
-    localStorage.removeItem('authToken');
+    console.log("on success");
+    localStorage.clear();
     navigate('/');
   };
 
@@ -51,31 +52,26 @@ function HomePage() {
                 SquadStack Leaves Manager
               </Typography>
             </Grid>
-            <Grid item xs={3} className="logoutButton" margin="auto">
-              <GoogleLogout
+            <Grid item xs={3} className="logoutButton" margin="auto"> 
+              <Button onClick={onSuccess}> 
+                Sign Out
+
+              </Button>
+              {/* <GoogleLogout
                 clientId={process.env.REACT_APP_CLIENT_ID}
                 hostedDomain="squadstack.com"
                 buttonText="Sign Out"
                 onLogoutSuccess={onSuccess}
-              />
+              /> */}
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
 
-      <Box
-        sx={{
-          margin: 'auto',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
+      <Box>
+        <div className="inputs">
           <Typography variant="h6">Start Date and Time</Typography>
-          <DateTimePickerComp
+          <DateTimePickerComponent
             date={start}
             updateDate={start => setStartDate(moment(start))} />   
         </div>
@@ -86,17 +82,12 @@ function HomePage() {
           }}
         >
           <Typography variant="h6">End Date and Time</Typography>
-          <DateTimePickerComp
+          <DateTimePickerComponent
             date={end}
             updateDate={end => setEndDate(moment(end))}
           />
         </div>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
+        <div className="inputs">
           <Typography variant="h6">Reason</Typography>
           <TextField
             id="outlined-basic"
