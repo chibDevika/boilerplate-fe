@@ -1,10 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import '../App.css';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -56,44 +53,31 @@ function HomePage() {
 
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar>
-          <Grid container spacing={20}>
-            <Grid item xs={5} margin="auto" marginLeft={0}>
-              <Typography variant="h5" gutterBottom component="div" padding={1}>
-                SquadStack Leaves Manager
-              </Typography>
-            </Grid>
-            <Grid item xs={3} className="logout" margin="auto">
-              <Button variant="outlined" startIcon={<GoogleIcon />} onClick={logout}>
-                Sign Out
-              </Button>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
+      <Box display="flex" p={2} alignItems="center" className="navBar">
+        <Typography variant="h5" padding={1}>SquadStack Leave Manager</Typography>
+        <Box flexGrow={1} textAlign="right">
+          <Button variant="contained" startIcon={<GoogleIcon />} onClick={logout}>
+            Sign Out
+          </Button>
+        </Box>
+      </Box>
 
-      <Box>
+      <Box p={2} margin="auto">
         <div className="inputs">
-          <Typography variant="h6">Start Date and Time</Typography>
+          <Typography variant="h6" margin={1}>Start Date and Time</Typography>
           <DateTimePickerComponent
             date={start}
             updateDate={start => setStartDate(moment(start))} />   
         </div>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Typography variant="h6">End Date and Time</Typography>
+        <div className="inputs">
+          <Typography variant="h6" my={1} mx={1.5}>End Date and Time</Typography>
           <DateTimePickerComponent
             date={end}
             updateDate={end => setEndDate(moment(end))}
           />
         </div>
         <div className="inputs">
-          <Typography variant="h6">Reason</Typography>
+          <Typography variant="h6" my={1} mx={8}>Reason</Typography>
           <TextField
             id="outlined-basic"
             label="Mention your reason"

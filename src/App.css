@@ -40,7 +40,13 @@
 .inputs {
   display: flex;
   align-items: center;
+  margin: 0.5em;
 }
+
+.navBar {
+  background-color: #e6e6e6;
+}
+
 
 @keyframes App-logo-float {
   0% {

@@ -6,9 +6,6 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 
 export default function DateTimePickerComponent(props) {
   
-  function handleChange(event) {
-    props.updateDate(event.target.value);
-  }
   return (
     <LocalizationProvider dateAdapter={MomentUtils}>
       <DateTimePicker
