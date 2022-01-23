@@ -26,6 +26,14 @@
   color: rgb(112, 76, 182);
 }
 
+.bodyBox {
+  margin-left: 30%;
+}
+
+.title {
+  font-weight: 700;
+}
+
 .logout {
   margin-top: 45rem;
 }
@@ -45,6 +53,10 @@
 
 .navBar {
   background-color: #e6e6e6;
+}
+
+.saveButton {
+  margin: auto;
 }
 
 

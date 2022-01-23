@@ -28,6 +28,7 @@ function LandingPage() {
         email: response.data['email'],
       },
     }).then((res) => {
+      console.log(res);
       localStorage.setItem('emp_id', res.data['id']);
     });
   }, []);

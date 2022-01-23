@@ -54,7 +54,11 @@ function HomePage() {
   return (
     <div>
       <Box display="flex" p={2} alignItems="center" className="navBar">
-        <Typography variant="h5" padding={1}>SquadStack Leave Manager</Typography>
+        <Typography variant="h5" padding={1}>
+          <Box className="title">
+            SquadStack Leave Manager
+          </Box>
+        </Typography>
         <Box flexGrow={1} textAlign="right">
           <Button variant="contained" startIcon={<GoogleIcon />} onClick={logout}>
             Sign Out
@@ -62,7 +66,7 @@ function HomePage() {
         </Box>
       </Box>
 
-      <Box p={2} margin="auto">
+      <Box p={2} className="bodyBox">
         <div className="inputs">
           <Typography variant="h6" margin={1}>Start Date and Time</Typography>
           <DateTimePickerComponent
@@ -87,7 +91,9 @@ function HomePage() {
             }}
           />
         </div>
-        <Button variant="contained" onClick={saveLeave}>
+      </Box>
+      <Box>
+        <Button variant="contained" onClick={saveLeave} className="saveButton">
           Save Leave
         </Button>
       </Box>
