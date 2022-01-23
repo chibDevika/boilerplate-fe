@@ -22,7 +22,8 @@ function myCalendar() {
   };
 
   const updateCalendar = () => {
-    if (localStorage.getItem('access_token')) {
+    const access_token = localStorage.getItem('access_token')
+    if (access_token) {
       const response = validateAccessToken();
       response
         .then(() => {
@@ -39,6 +40,9 @@ function myCalendar() {
     axios({
       method: 'get',
       url: 'leaves/leaves/',
+      headers: {
+        'Authorization': 'Token ' + localStorage.getItem('token'),
+      },
     }).then((response) => {
       const data = response.data;
       const len = data.length;

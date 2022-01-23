@@ -33,11 +33,15 @@ function HomePage() {
         ended_at: endDate,
         reason: { reason }['reason'],
       },
+      headers: {
+        'Authorization': 'Token ' + localStorage.getItem('token'),
+      },
     });
   }, []);
 
-  const saveLeave = () => {
-    if (localStorage.getItem('access_token')) {
+  const saveLeave = useCallback(() => {
+    const access_token = localStorage.getItem('access_token')
+    if (access_token) {
       const response = validateAccessToken();
       response
         .then(() => {
@@ -49,12 +53,12 @@ function HomePage() {
     } else {
       logout();
     }
-  };
+  }, []);
 
   return (
     <div>
-      <Box display="flex" p={2} alignItems="center" className="navBar">
-        <Typography variant="h5" padding={1}>
+      <Box className="navBar">
+        <Typography variant="h5" className="titleText">
           <Box className="title">
             SquadStack Leave Manager
           </Box>

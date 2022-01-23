@@ -22,14 +22,14 @@ function LandingPage() {
       method: 'post',
       url: 'employees/employees/',
       data: {
-        username: "testUser",
+        username: response.data['id'],
         first_name: response.data['given_name'],
         last_name: response.data['family_name'],
         email: response.data['email'],
       },
     }).then((res) => {
-      console.log(res);
-      localStorage.setItem('emp_id', res.data['id']);
+      localStorage.setItem('token', res.data.token)
+      localStorage.setItem('emp_id', res.data.data['id']);
     });
   }, []);
 
@@ -42,7 +42,7 @@ function LandingPage() {
     });
   }, []);
 
-  const getRefreshToken = (response) => {
+  const getRefreshToken = useCallback((response) => {
     const form_data = new FormData();
     form_data.append('code', response.code);
     form_data.append('client_id', process.env.REACT_APP_CLIENT_ID);
@@ -64,7 +64,7 @@ function LandingPage() {
       getUserDetails();
       navigate('/dashboard');
     });
-  };
+  }, []);
 
   const onSuccess = (response) => {
     getRefreshToken(response);

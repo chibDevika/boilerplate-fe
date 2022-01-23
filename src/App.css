@@ -27,8 +27,8 @@
 }
 
 .bodyBox {
-  margin-left: 30%;
-  margin-right: 30%;
+  margin-left: 30rem;
+  margin-right: 30rem;
 }
 
 .title {
@@ -40,8 +40,8 @@
 }
 
 .landingPageBox {
-  width: 400;
-  height: 200;
+  width: 400rem;
+  height: 200rem;
   box-shadow: 2;
   max-width: auto;
 }
@@ -49,17 +49,23 @@
 .inputs {
   display: flex;
   align-items: center;
-  margin: 0.5em;
+  margin: 0.5rem;
 }
 
 .navBar {
   background-color: #e6e6e6;
+  display: flex;
+  padding: 1rem;
+  align-items: center;
 }
 
 .saveButton {
   margin: auto;
 }
 
+.titleText {
+  padding: 1rem;
+}
 
 @keyframes App-logo-float {
   0% {
