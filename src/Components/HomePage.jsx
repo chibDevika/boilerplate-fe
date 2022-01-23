@@ -40,7 +40,7 @@ function HomePage() {
   }, []);
 
   const saveLeave = useCallback(() => {
-    const access_token = localStorage.getItem('access_token')
+    const access_token = localStorage.getItem('access_token');
     if (access_token) {
       const response = validateAccessToken();
       response
