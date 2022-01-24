@@ -1,63 +1,95 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import '../App.css';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
-import { refreshTokenSetup } from '../refreshToken';
 import axios from './axiosInstance';
+import { validateAccessToken } from './ValidateToken';
 
 function LandingPage() {
-  const sendRequest = useCallback((response) => {
+  const navigate = useNavigate();
+
+  if (localStorage.getItem('access_token')) {
+    const response = validateAccessToken();
+    if (response) {
+      navigate('/dashboard');
+    }
+  }
+
+  const sendPostRequest = useCallback((response) => {
     axios({
       method: 'post',
-      url: 'employees/employees-data/',
+      url: 'employees/employees/',
       data: {
-        username: response.profileObj.googleId,
-        first_name: response.profileObj.givenName,
-        last_name: response.profileObj.familyName,
-        email: response.profileObj.email,
+        username: response.data['id'],
+        first_name: response.data['given_name'],
+        last_name: response.data['family_name'],
+        email: response.data['email'],
       },
     }).then((res) => {
-      return res.id;
+      localStorage.setItem('token', res.data.token)
+      localStorage.setItem('emp_id', res.data.data['id']);
+      navigate('/dashboard');
     });
   }, []);
 
-  const navigate = useNavigate();
+  const getUserDetails = useCallback(() => {
+    axios({
+      method: 'get',
+      url: 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' + localStorage.getItem('access_token')
+    }).then((response) => {
+      sendPostRequest(response);
+    });
+  }, []);
+
+  const getRefreshToken = useCallback((response) => {
+    const form_data = new FormData();
+    form_data.append('code', response.code);
+    form_data.append('client_id', process.env.REACT_APP_CLIENT_ID);
+    form_data.append('client_secret', process.env.REACT_APP_CLIENT_SECRET);
+    form_data.append('redirect_uri', 'http://localhost:3000');
+    form_data.append('grant_type', 'authorization_code');
+    axios({
+      method: 'post',
+      url: 'https://oauth2.googleapis.com/token',
+      data: form_data,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }).then((res) => {
+      localStorage.setItem('access_token', res.data.access_token);
+      localStorage.setItem('refresh_token', res.data.refresh_token);
+      localStorage.setItem('expires_in', res.data.expires_in);
+      localStorage.setItem('timestamp', new Date().getSeconds());
+      getUserDetails();
+    });
+  }, []);
+
   const onSuccess = (response) => {
-    const emp_id = sendRequest(response);
-    refreshTokenSetup(response);
-    navigate('/dashboard');
+    getRefreshToken(response);
   };
 
   const onFailure = () => {};
-
   return (
-    <Box
-      sx={{
-        width: 400,
-        height: 200,
-        boxShadow: 2,
-      }}
-    >
+    <Box boxShadow={2} width={400} height={200} mx="auto" my="15%">
       <Typography variant="h5" gutterBottom component="div" padding={1}>
         Sign in to continue to
       </Typography>
       <Typography variant="h5" gutterBottom component="div" paddingBottom={3}>
-        SquadStack Leaves Manager
+        SquadStack Leave Manager
       </Typography>
       <div>
         <GoogleLogin
           clientId={process.env.REACT_APP_CLIENT_ID}
           hostedDomain="squadstack.com"
-          responseType="id_token"
+          responseType="code"
+          accessType="offline"
           buttonText="Sign In"
-          uxMode="popup"
           onSuccess={onSuccess}
           onFailure={onFailure}
-          cookiePolicy="http://localhost:3000"
           style={{ marginTop: '1em' }}
-          isSignedIn={true}
+          prompt="consent"
         />
       </div>
     </Box>

@@ -26,6 +26,44 @@
   color: rgb(112, 76, 182);
 }
 
+.bodyBox {
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+.title {
+  font-weight: 700;
+}
+
+.logout {
+  margin-top: 45rem;
+}
+
+.inputs {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem;
+}
+
+:root {
+  --grey: #e6e6e6;
+}
+
+.navBar {
+  background-color: var(--grey);
+  display: flex;
+  padding: 0.5rem;
+  align-items: center;
+}
+
+.saveButton {
+  margin: auto;
+}
+
+.titleText {
+  padding: 1rem;
+}
+
 @keyframes App-logo-float {
   0% {
     transform: translateY(0);
