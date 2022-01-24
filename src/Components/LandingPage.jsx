@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import '../App.css';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -22,7 +22,7 @@ function LandingPage() {
       method: 'post',
       url: 'employees/employees/',
       data: {
-        username: "devika",
+        username: response.data['id'],
         first_name: response.data['given_name'],
         last_name: response.data['family_name'],
         email: response.data['email'],
