@@ -11,12 +11,6 @@ const localizer = momentLocalizer(moment);
 function myCalendar() {
   const [myEvents, setMyEvents] = useState([]);
   const navigate = useNavigate();
-  const [selected, setSelected] = useState();
-
-  const handleSelected = (event) => {
-    setSelected(event);
-    console.info('[handleSelected - event]', event);
-  };
 
   useEffect(() => {
     updateCalendar();
@@ -80,8 +74,6 @@ function myCalendar() {
         startAccessor="start"
         endAccessor="end"
         style={{ height: 600 }}
-        selected={selected}
-        onSelectEvent={handleSelected}
       />
     </div>
   );
