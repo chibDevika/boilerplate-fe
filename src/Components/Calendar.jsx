@@ -11,6 +11,12 @@ const localizer = momentLocalizer(moment);
 function myCalendar() {
   const [myEvents, setMyEvents] = useState([]);
   const navigate = useNavigate();
+  const [selected, setSelected] = useState();
+
+  const handleSelected = (event) => {
+    setSelected(event);
+    console.info('[handleSelected - event]', event);
+  };
 
   useEffect(() => {
     updateCalendar();
@@ -21,7 +27,7 @@ function myCalendar() {
     navigate('/');
   };
 
-  const updateCalendar = () => {
+  const updateCalendar = useCallback(() => {
     const access_token = localStorage.getItem('access_token');
     if (access_token) {
       const response = validateAccessToken();
@@ -34,7 +40,7 @@ function myCalendar() {
     } else {
       logout();
     }
-  };
+  });
 
   const getEvents = useCallback(() => {
     axios({
@@ -74,6 +80,8 @@ function myCalendar() {
         startAccessor="start"
         endAccessor="end"
         style={{ height: 600 }}
+        selected={selected}
+        onSelectEvent={handleSelected}
       />
     </div>
   );

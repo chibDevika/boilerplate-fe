@@ -27,8 +27,8 @@
 }
 
 .bodyBox {
-  margin-left: 30rem;
-  margin-right: 30rem;
+  margin-left: 30%;
+  margin-right: 30%;
 }
 
 .title {
@@ -39,23 +39,20 @@
   margin-top: 45rem;
 }
 
-.landingPageBox {
-  width: 400rem;
-  height: 200rem;
-  box-shadow: 2;
-  max-width: auto;
-}
-
 .inputs {
   display: flex;
   align-items: center;
   margin: 0.5rem;
 }
 
+:root {
+  --grey: #e6e6e6;
+}
+
 .navBar {
-  background-color: #e6e6e6;
+  background-color: var(--grey);
   display: flex;
-  padding: 1rem;
+  padding: 0.5rem;
   align-items: center;
 }
 

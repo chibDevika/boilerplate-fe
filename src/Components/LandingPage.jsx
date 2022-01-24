@@ -30,6 +30,7 @@ function LandingPage() {
     }).then((res) => {
       localStorage.setItem('token', res.data.token)
       localStorage.setItem('emp_id', res.data.data['id']);
+      navigate('/dashboard');
     });
   }, []);
 
@@ -62,7 +63,6 @@ function LandingPage() {
       localStorage.setItem('expires_in', res.data.expires_in);
       localStorage.setItem('timestamp', new Date().getSeconds());
       getUserDetails();
-      navigate('/dashboard');
     });
   }, []);
 
@@ -71,14 +71,13 @@ function LandingPage() {
   };
 
   const onFailure = () => {};
-
   return (
-    <Box className="landingPageBox">
+    <Box boxShadow={2} width={400} height={200} mx="auto" my="15%">
       <Typography variant="h5" gutterBottom component="div" padding={1}>
         Sign in to continue to
       </Typography>
       <Typography variant="h5" gutterBottom component="div" paddingBottom={3}>
-        SquadStack Leaves Manager
+        SquadStack Leave Manager
       </Typography>
       <div>
         <GoogleLogin

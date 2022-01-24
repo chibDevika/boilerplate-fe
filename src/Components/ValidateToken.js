@@ -33,9 +33,9 @@ export async function validateAccessToken() {
       if (res.status === 200) {
         return res;
       } else {
-        const response = generateAccessToken(localStorage.getItem('refresh_token'));
-        response.then(() => {
-          return res;
+        const response = generateAccessToken();
+        response.then((r) => {
+          return r;
         });
       }
     })
