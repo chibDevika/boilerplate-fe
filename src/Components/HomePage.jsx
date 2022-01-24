@@ -23,7 +23,7 @@ function HomePage() {
     navigate('/');
   };
 
-  const sendRequest = useCallback((startDate, endDate) => {
+  const sendRequest = useCallback((startDate, endDate, newReason) => {
     axios({
       method: 'post',
       url: 'leaves/leaves/',
@@ -31,7 +31,7 @@ function HomePage() {
         employee: localStorage.getItem('emp_id'),
         started_at: startDate,
         ended_at: endDate,
-        reason: { reason }['reason'],
+        reason: newReason,
       },
       headers: {
         'Authorization': 'Token ' + localStorage.getItem('token'),
@@ -39,13 +39,13 @@ function HomePage() {
     });
   }, []);
 
-  const saveLeave = useCallback(() => {
+  const saveLeave = () => {
     const access_token = localStorage.getItem('access_token');
     if (access_token) {
       const response = validateAccessToken();
       response
         .then(() => {
-          sendRequest(moment(start).format('YYYY-MM-DD HH:mm:ss'), moment(end).format('YYYY-MM-DD HH:mm:ss'));
+          sendRequest(moment(start).format('YYYY-MM-DD HH:mm:ss'), moment(end).format('YYYY-MM-DD HH:mm:ss'), { reason }['reason']);
         })
         .catch(() => {
           logout();
@@ -53,7 +53,7 @@ function HomePage() {
     } else {
       logout();
     }
-  }, []);
+  };
 
   return (
     <div>
