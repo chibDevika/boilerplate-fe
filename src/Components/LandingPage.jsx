@@ -1,7 +1,10 @@
+/* eslint-disable */
 import React, { useCallback } from 'react';
 import '../App.css';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import GoogleIcon from '@mui/icons-material/Google';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import axios from './axiosInstance';
@@ -22,14 +25,14 @@ function LandingPage() {
       method: 'post',
       url: 'employees/employees/',
       data: {
-        username: "testUser123456",
-        first_name: response.data['given_name'],
-        last_name: response.data['family_name'],
-        email: response.data['email'],
+        username: 'testUser123456',
+        first_name: response.data.given_name,
+        last_name: response.data.family_name,
+        email: response.data.email,
       },
     }).then((res) => {
-      localStorage.setItem('token', res.data.token)
-      localStorage.setItem('emp_id', res.data.data['id']);
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('emp_id', res.data.data.id);
       navigate('/dashboard');
     });
   }, []);
@@ -37,7 +40,9 @@ function LandingPage() {
   const getUserDetails = useCallback(() => {
     axios({
       method: 'get',
-      url: 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' + localStorage.getItem('access_token')
+      url:
+        'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' +
+        localStorage.getItem('access_token'),
     }).then((response) => {
       sendPostRequest(response);
     });
@@ -71,28 +76,43 @@ function LandingPage() {
 
   const onFailure = () => {};
   return (
-    <Box boxShadow={2} width={400} height={200} mx="auto" my="15%">
-      <Typography variant="h5" gutterBottom component="div" padding={1}>
-        Sign in to continue to
-      </Typography>
-      <Typography variant="h5" gutterBottom component="div" paddingBottom={3}>
-        SquadStack Leave Manager
-      </Typography>
-      <div>
-        <GoogleLogin
-          clientId={process.env.REACT_APP_CLIENT_ID}
-          hostedDomain="squadstack.com"
-          responseType="code"
-          accessType="offline"
-          buttonText="Sign In"
-          onSuccess={onSuccess}
-          onFailure={onFailure}
-          style={{ marginTop: '1em' }}
-          prompt="consent"
-        />
-      </div>
+    <Box id="landingPage">
+      <Box id="landingPageBox" width={400} height={200}>
+        <Box id="landingPagelogo" />
+        <Typography
+          variant="h5"
+          id="landingPageTitle"
+          gutterBottom
+          component="div"
+        >
+          Leave Manager
+        </Typography>
+        <div>
+          <GoogleLogin
+            clientId={process.env.REACT_APP_CLIENT_ID}
+            hostedDomain="squadstack.com"
+            responseType="code"
+            accessType="offline"
+            render={(renderProps) => (
+              <Button
+                variant="contained"
+                startIcon={<GoogleIcon />}
+                onClick={renderProps.onClick}
+              >
+                Sign In
+              </Button>
+            )}
+            buttonText="Sign In"
+            onSuccess={onSuccess}
+            onFailure={onFailure}
+            style={{ marginTop: '1em' }}
+            prompt="consent"
+          />
+        </div>
+      </Box>
     </Box>
   );
 }
 
 export default LandingPage;
+/* eslint-disable */

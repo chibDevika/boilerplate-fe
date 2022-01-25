@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useCallback } from 'react';
 import '../App.css';
 import Box from '@mui/material/Box';
@@ -36,15 +37,17 @@ function HomePage() {
         reason: newReason,
       },
       headers: {
-        'Authorization': 'Token ' + localStorage.getItem('token'),
+        Authorization: 'Token ' + localStorage.getItem('token'),
       },
-    }).then(result => {
-      setButtonClick(true);
-      setResponseText('Saved leave successfully!');
-  }).catch(error => {
-      setButtonClick(true);
-      setResponseText(error.response.data.non_field_errors.toString());
-    });
+    })
+      .then((result) => {
+        setButtonClick(true);
+        setResponseText('Saved leave successfully!');
+      })
+      .catch((error) => {
+        setButtonClick(true);
+        setResponseText(error.response.data.non_field_errors.toString());
+      });
   }, []);
 
   const saveLeave = () => {
@@ -53,72 +56,87 @@ function HomePage() {
       const response = validateAccessToken();
       response
         .then(() => {
-          sendRequest(moment(start).format('YYYY-MM-DD HH:mm:ss'), moment(end).format('YYYY-MM-DD HH:mm:ss'), { reason }['reason']);
+          sendRequest(
+            moment(start).format('YYYY-MM-DD HH:mm:ss'),
+            moment(end).format('YYYY-MM-DD HH:mm:ss'),
+            { reason }.reason,
+          );
         })
         .catch(() => {
           logout();
-    });
+        });
     } else {
       logout();
     }
   };
 
   return (
-    <div>
-      <Box className="navBar">
-        <Typography variant="h5" className="titleText">
-          <Box className="title">
-            SquadStack Leave Manager
-          </Box>
+    <div id="homePageDiv">
+      <Box id="navBar">
+        <Typography variant="h5">
+          <div id="nameAndLogo">
+            <Box id="logo" />
+            <Box id="title">SquadStack Leave Manager</Box>
+          </div>
         </Typography>
         <Box flexGrow={1} textAlign="right">
-          <Button variant="contained" startIcon={<GoogleIcon />} onClick={logout}>
+          <Button
+            variant="contained"
+            startIcon={<GoogleIcon />}
+            onClick={logout}
+          >
             Sign Out
           </Button>
         </Box>
       </Box>
 
-      <Box p={2} className="bodyBox">
+      <Box p={2} id="bodyBox">
         <div className="inputs">
-          <Typography variant="h6" margin={1}>Start Date and Time</Typography>
+          <Typography variant="h6" margin={1}>
+            Start Date and Time
+          </Typography>
           <DateTimePickerComponent
             date={start}
-            updateDate={start => setStartDate(moment(start))} />   
-        </div>
-        <div className="inputs">
-          <Typography variant="h6" my={1} mx={1.5}>End Date and Time</Typography>
-          <DateTimePickerComponent
-            date={end}
-            updateDate={end => setEndDate(moment(end))}
+            updateDate={(start) => setStartDate(moment(start))}
           />
         </div>
         <div className="inputs">
-          <Typography variant="h6" my={1} mx={8}>Reason</Typography>
+          <Typography variant="h6" my={1} mx={1.5}>
+            End Date and Time
+          </Typography>
+          <DateTimePickerComponent
+            date={end}
+            updateDate={(end) => setEndDate(moment(end))}
+          />
+        </div>
+        <div className="inputs" mt={2}>
+          <Typography variant="h6" my={1} mx={8}>
+            Reason
+          </Typography>
           <TextField
             id="outlined-basic"
             label="Mention your reason"
             variant="outlined"
+            multiline
             onChange={(input) => {
               setReason(input.target.value);
             }}
           />
         </div>
       </Box>
-      <Box bgcolor="#bbdefb" my={2} mx={35}>
-        {{ 
-          buttonClick } ?
-            <Typography>
-              { responseText }
-            </Typography> :
-            null
-          }      
+      <Box id="errorMessage" my={2} mx={35}>
+        {{
+          buttonClick,
+        } ? (
+          <Typography>{responseText}</Typography>
+        ) : null}
       </Box>
       <Box>
-        <Button variant="contained" onClick={saveLeave} className="saveButton">
+        <Button variant="contained" onClick={saveLeave} id="saveButton">
           Save Leave
         </Button>
       </Box>
-      <Box sx={{ flexGrow: 2 }} margin="auto" mt={8}>
+      <Box id="calendar">
         <MyCalendar />
       </Box>
     </div>
@@ -126,3 +144,4 @@ function HomePage() {
 }
 
 export default HomePage;
+/* eslint-disable */
