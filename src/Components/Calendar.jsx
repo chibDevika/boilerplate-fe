@@ -10,7 +10,27 @@ const localizer = momentLocalizer(moment);
 
 function myCalendar() {
   const [myEvents, setMyEvents] = useState([]);
+  const [start, setStart] = useState(startDate());
+  const [end, setEnd] = useState(endDate());
   const navigate = useNavigate();
+
+
+  function handleRangeChange(event) {
+    console.log(event.start.toString());
+    setStart(convert(event.start.toString()));
+    setEnd(convert(event.end.toString()));
+    getEvents(start, end);
+  }
+
+  function convert(str){
+    var date = new Date(str.replace('IST', ''));
+    let day = date.getDate();
+    let month = date.getMonth()+1;
+    let year = date.getFullYear();
+
+    return(year+"-"+month+"-"+day)
+  }
+
 
   useEffect(() => {
     updateCalendar();
@@ -27,7 +47,7 @@ function myCalendar() {
       const response = validateAccessToken();
       response
         .then(() => {
-          getEvents();
+          getEvents(start, end);
         }).catch(() => {
           logout();
         });
@@ -37,9 +57,10 @@ function myCalendar() {
   });
 
   const getEvents = useCallback(() => {
+    console.log( start1 );
     axios({
       method: 'get',
-      url: 'leaves/leaves/',
+      url: 'leaves/leaves/' +  start  + "/" +  end,
       headers: {
         'Authorization': 'Token ' + localStorage.getItem('token'),
       },
@@ -74,6 +95,7 @@ function myCalendar() {
         startAccessor="start"
         endAccessor="end"
         style={{ height: 600 }}
+        onRangeChange={ handleRangeChange }
       />
     </div>
   );

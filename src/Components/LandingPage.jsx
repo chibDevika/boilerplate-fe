@@ -22,7 +22,7 @@ function LandingPage() {
       method: 'post',
       url: 'employees/employees/',
       data: {
-        username:response.data['id'],
+        username: "testUser123456",
         first_name: response.data['given_name'],
         last_name: response.data['family_name'],
         email: response.data['email'],
@@ -61,7 +61,6 @@ function LandingPage() {
       localStorage.setItem('access_token', res.data.access_token);
       localStorage.setItem('refresh_token', res.data.refresh_token);
       localStorage.setItem('expires_in', res.data.expires_in);
-      localStorage.setItem('timestamp', new Date().getSeconds());
       getUserDetails();
     });
   }, []);
