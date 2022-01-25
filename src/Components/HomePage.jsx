@@ -16,6 +16,8 @@ function HomePage() {
   const [reason, setReason] = useState(' ');
   const [start, setStartDate] = useState(moment());
   const [end, setEndDate] = useState(moment());
+  const [buttonClick, setButtonClick] = useState(false);
+  const [responseText, setResponseText] = useState('');
   const navigate = useNavigate();
 
   const logout = () => {
@@ -36,6 +38,12 @@ function HomePage() {
       headers: {
         'Authorization': 'Token ' + localStorage.getItem('token'),
       },
+    }).then(result => {
+      setButtonClick(true);
+      setResponseText('Saved leave successfully!');
+  }).catch(error => {
+      setButtonClick(true);
+      setResponseText(error.response.data.non_field_errors.toString());
     });
   }, []);
 
@@ -95,6 +103,15 @@ function HomePage() {
             }}
           />
         </div>
+      </Box>
+      <Box bgcolor="#bbdefb" my={2} mx={35}>
+        {{ 
+          buttonClick } ?
+            <Typography>
+              { responseText }
+            </Typography> :
+            null
+          }      
       </Box>
       <Box>
         <Button variant="contained" onClick={saveLeave} className="saveButton">
