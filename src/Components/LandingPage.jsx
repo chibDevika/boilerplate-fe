@@ -22,7 +22,7 @@ function LandingPage() {
       method: 'post',
       url: 'employees/employees/',
       data: {
-        username: "newUser",
+        username:response.data['id'],
         first_name: response.data['given_name'],
         last_name: response.data['family_name'],
         email: response.data['email'],
