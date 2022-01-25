@@ -41,11 +41,9 @@ function HomePage() {
     }).then(result => {
       setButtonClick(true);
       setResponseText('Saved leave successfully!');
-      console.log('success', result);
   }).catch(error => {
       setButtonClick(true);
-      setResponseText(error.response.data.non_field_errors[0])
-      console.log(error.response.data.non_field_errors[0]);
+      setResponseText(error.response.data.non_field_errors.toString());
     });
   }, []);
 
