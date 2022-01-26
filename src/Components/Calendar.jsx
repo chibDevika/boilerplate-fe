@@ -3,14 +3,40 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import axios from './axiosInstance';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { validateAccessToken } from './ValidateToken';
+import DateTimePickerComponent from './DateTimePicker';
 
 const localizer = momentLocalizer(moment);
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 800,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 function myCalendar() {
   const [myEvents, setMyEvents] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [selected, setSelected] = useState();
+  const handleClose = () => setOpen(false);
+  const [reason, setReason] = useState(' ');
+  const [start, setStartDate] = useState(moment());
+  const [end, setEndDate] = useState(moment());
+  const [leaveID, SetLeaveID] = useState();
+  const [buttonClick, setButtonClick] = useState(false);
+  const [responseText, setResponseText] = useState('');
   const navigate = useNavigate();
 
   function startDate() {
@@ -45,7 +71,7 @@ function myCalendar() {
   const getEvents = useCallback((start, end) => {
     axios({
       method: 'get',
-      url: 'leaves/leaves/' + start + '/' + end,
+      url: 'leaves/leaves/' + start + '/' + end + '/',
       headers: {
         Authorization: 'Token ' + localStorage.getItem('token'),
       },
@@ -64,11 +90,12 @@ function myCalendar() {
         events.push({
           start: new Date(startStr),
           end: new Date(endStr),
+          id: data[i].id,
           title:
             data[i].first_name +
             ' ' +
             data[i].last_name +
-            '; Reason:' +
+            '; Reason: ' +
             data[i].reason,
         });
       }
@@ -99,12 +126,111 @@ function myCalendar() {
     }
   });
 
+  const handleSelected = (event) => {
+    setSelected(event);
+    setStartDate(event.start);
+    setEndDate(event.end);
+    SetLeaveID(event.id);
+    setReason(event.title.split('Reason:')[1]);
+    setOpen(true);
+  };
+
   useEffect(() => {
     updateCalendar();
   }, []);
 
+  const saveChange = useCallback((startDate, endDate, newReason) => {
+    axios({
+      method: 'patch',
+      url: 'leaves/leaves/' + leaveID + '/',
+      data: {
+        employee: localStorage.getItem('emp_id'),
+        started_at: startDate,
+        ended_at: endDate,
+        reason: newReason,
+      },
+      headers: {
+        Authorization: 'Token ' + localStorage.getItem('token'),
+      },
+    })
+      .then((result) => {
+        setButtonClick(true);
+        setResponseText('Updated Leave Successfully!');
+      })
+      .catch((error) => {
+        setButtonClick(true);
+        setResponseText(error.response.data.non_field_errors.toString());
+      });
+  });
+
   return (
     <div>
+      <div>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box id="popup">
+            <Box p={2} id="bodyBox">
+              <div className="inputBox">
+                <Typography variant="h6" my={1}>
+                  Start Date and Time
+                </Typography>
+                <DateTimePickerComponent
+                  date={start}
+                  updateDate={(start) => setStartDate(moment(start))}
+                />
+              </div>
+              <div className="inputBox">
+                <Typography variant="h6" my={1}>
+                  End Date and Time
+                </Typography>
+                <DateTimePickerComponent
+                  date={end}
+                  updateDate={(end) => setEndDate(moment(end))}
+                />
+              </div>
+              <div className="inputBox" mt={2}>
+                <Typography variant="h6" my={1}>
+                  Reason
+                </Typography>
+                <TextField
+                  id="outlined-basic"
+                  label="Mention your reason"
+                  variant="outlined"
+                  multiline
+                  defaultValue={reason}
+                  onChange={(input) => {
+                    setReason(input.target.value);
+                  }}
+                />
+              </div>
+              <Box id="errorMessage">
+                {{
+                  buttonClick,
+                } ? (
+                  <Typography margin="auto">{responseText}</Typography>
+                ) : null}
+              </Box>
+              <Button
+                onClick={() =>
+                  saveChange(
+                    moment(start).format('YYYY-MM-DD HH:mm:ss'),
+                    moment(end).format('YYYY-MM-DD HH:mm:ss'),
+                    { reason }.reason,
+                  )
+                }
+                variant="contained"
+                id="saveChangeButton"
+              >
+                Save Changes
+              </Button>
+            </Box>
+          </Box>
+        </Modal>
+      </div>
       <Calendar
         localizer={localizer}
         events={myEvents}
@@ -112,6 +238,8 @@ function myCalendar() {
         endAccessor="end"
         style={{ height: 600 }}
         onRangeChange={handleRangeChange}
+        selected={selected}
+        onSelectEvent={handleSelected}
       />
     </div>
   );
