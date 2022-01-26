@@ -53,7 +53,10 @@ function LandingPage() {
     form_data.append('code', response.code);
     form_data.append('client_id', process.env.REACT_APP_CLIENT_ID);
     form_data.append('client_secret', process.env.REACT_APP_CLIENT_SECRET);
-    form_data.append('redirect_uri', 'http://localhost:3000');
+    form_data.append(
+      'redirect_uri',
+      'https://devika-leave-tracker.herokuapp.com',
+    );
     form_data.append('grant_type', 'authorization_code');
     axios({
       method: 'post',
