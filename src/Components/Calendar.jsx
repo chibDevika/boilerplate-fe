@@ -10,7 +10,7 @@ import { endDate } from '../utils/endDate';
 
 const localizer = momentLocalizer(moment);
 
-function myCalendar() {
+function MyCalendar() {
   const [myEvents, setMyEvents] = useState([]);
   const navigate = useNavigate();
 
@@ -56,16 +56,19 @@ function myCalendar() {
     });
   }, []);
 
-  const handleRangeChange = useCallback((event) => {
-    const startDateString = convert(event.start.toString());
-    const endDateString = convert(event.end.toString());
-    getEvents(startDateString, endDateString);
-  });
+  const handleRangeChange = useCallback(
+    (event) => {
+      const startDateString = convert(event.start.toString());
+      const endDateString = convert(event.end.toString());
+      getEvents(startDateString, endDateString);
+    },
+    [getEvents],
+  );
 
   const logout = useCallback(() => {
     localStorage.clear();
     navigate('/');
-  });
+  }, [navigate]);
 
   const updateCalendar = useCallback(() => {
     const access_token = localStorage.getItem('access_token');
@@ -77,11 +80,11 @@ function myCalendar() {
     } else {
       logout();
     }
-  });
+  }, [getEvents, logout]);
 
   useEffect(() => {
     updateCalendar();
-  }, []);
+  }, [updateCalendar]);
 
   return (
     <div>
@@ -97,5 +100,4 @@ function myCalendar() {
   );
 }
 
-export default myCalendar;
-
+export default MyCalendar;
