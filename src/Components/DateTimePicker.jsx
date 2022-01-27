@@ -5,7 +5,6 @@ import MomentUtils from '@date-io/moment';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 
 export default function DateTimePickerComponent(props) {
-  
   return (
     <LocalizationProvider dateAdapter={MomentUtils}>
       <DateTimePicker

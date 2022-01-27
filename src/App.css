@@ -31,8 +31,31 @@
   margin-right: 30%;
 }
 
+.calendar {
+  margin-top: 3rem;
+  background-color: white;
+  flex-grow: 1;
+}
+
+.errorMessage {
+  background-color: var(--error-message-blue);
+}
+
+.googleLogin {
+  margin-top: 1rem;
+}
+
+.homePageDiv {
+  background-image: url(paper.png);
+  height: 60rem;
+  width: 100%;
+}
+
 .title {
   font-weight: 700;
+  margin-left: 0.5rem;
+  margin: 0.5rem;
+  color: white;
 }
 
 .logout {
@@ -47,10 +70,59 @@
 
 :root {
   --grey: #e6e6e6;
+  --light-blue: #e3f2fd;
+  --error-message-blue: #bbdefb;
+  --squad-orange: #f07549;
+  --squad-blue: #2c384c;
+}
+
+.landingPage {
+  background-color: var(--squad-blue);
+  margin: 0rem;
+  padding: 0rem;
+  height: 100vh;
+  width: 100vw;
+}
+
+.landingPagelogo {
+  background-image: url(squadstack-logo.png);
+  height: 4rem;
+  width: 15rem;
+  background-position: center;
+  background-size: contain;
+  margin: auto;
+  padding-top: 0.5rem;
+}
+
+.landingPageBox {
+  margin: auto;
+  background-color: var(--squad-orange);
+  border-radius: 0.5rem;
+  box-shadow: 1rem;
+}
+
+.landingPageTitle {
+  color: white;
+  font-weight: 200rem;
+  padding: 1rem;
+}
+
+.logo {
+  background-image: url(logo.png);
+  background-size: contain;
+  height: 2.3rem;
+  width: 2.5rem;
+  margin: 0.1rem;
+  padding: 0.1rem;
+}
+
+.nameAndLogo {
+  display: flex;
+  text-align: center;
 }
 
 .navBar {
-  background-color: var(--grey);
+  background-color: var(--squad-orange);
   display: flex;
   padding: 0.5rem;
   align-items: center;
@@ -58,10 +130,6 @@
 
 .saveButton {
   margin: auto;
-}
-
-.titleText {
-  padding: 1rem;
 }
 
 @keyframes App-logo-float {
