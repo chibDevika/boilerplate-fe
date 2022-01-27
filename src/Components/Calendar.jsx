@@ -21,6 +21,11 @@ function MyCalendar() {
     return [date.getFullYear(), month, day].join('-');
   }
 
+  const logout = useCallback(() => {
+    localStorage.clear();
+    navigate('/');
+  }, [navigate]);
+
   const getEvents = useCallback((start, end) => {
     const token = 'Token ';
     axios({
@@ -30,12 +35,15 @@ function MyCalendar() {
         Authorization: `${token}${localStorage.getItem('token')}`,
       },
     }).then((response) => {
-      const data = response.data;
+      const { data } = response;
       const len = data.length;
       const events = [];
       for (let i = 0; i < len; i++) {
         const startTemp = data[i].started_at;
-        const startStr = `${startTemp.substr(0, 10)} ${startTemp.substr(11, 8)}`;
+        const startStr = `${startTemp.substr(0, 10)} ${startTemp.substr(
+          11,
+          8,
+        )}`;
 
         const endTemp = data[i].ended_at;
         const endStr = `${endTemp.substr(0, 10)} ${endTemp.substr(11, 8)}`;
@@ -52,17 +60,20 @@ function MyCalendar() {
 
   const handleRangeChange = useCallback(
     (event) => {
-      const startDateString = convert(event.start.toString());
-      const endDateString = convert(event.end.toString());
-      getEvents(startDateString, endDateString);
+      const access_token = localStorage.getItem('access_token');
+      if (access_token) {
+        const response = validateAccessToken();
+        response.then(() => {
+          const startDateString = convert(event.start.toString());
+          const endDateString = convert(event.end.toString());
+          getEvents(startDateString, endDateString);
+        });
+      } else {
+        logout();
+      }
     },
-    [getEvents],
+    [getEvents, logout],
   );
-
-  const logout = useCallback(() => {
-    localStorage.clear();
-    navigate('/');
-  }, [navigate]);
 
   const updateCalendar = useCallback(() => {
     const access_token = localStorage.getItem('access_token');
