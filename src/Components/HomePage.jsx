@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useCallback } from 'react';
 import '../App.css';
 import Box from '@mui/material/Box';
@@ -11,7 +10,7 @@ import moment from 'moment';
 import DateTimePickerComponent from './DateTimePicker';
 import MyCalendar from './Calendar';
 import axios from './axiosInstance';
-import { validateAccessToken } from './ValidateToken';
+import { validateAccessToken } from '../utils/ValidateToken';
 
 function HomePage() {
   const [reason, setReason] = useState(' ');
@@ -71,12 +70,12 @@ function HomePage() {
   };
 
   return (
-    <div id="homePageDiv">
-      <Box id="navBar">
+    <div className="homePageDiv">
+      <Box className="navBar">
         <Typography variant="h5">
-          <div id="nameAndLogo">
-            <Box id="logo" />
-            <Box id="title">SquadStack Leave Manager</Box>
+          <div className="nameAndLogo">
+            <Box className="logo" />
+            <Box className="title">SquadStack Leave Manager</Box>
           </div>
         </Typography>
         <Box flexGrow={1} textAlign="right">
@@ -90,7 +89,7 @@ function HomePage() {
         </Box>
       </Box>
 
-      <Box p={2} id="bodyBox">
+      <Box p={2} className="bodyBox">
         <div className="inputs">
           <Typography variant="h6" margin={1}>
             Start Date and Time
@@ -124,7 +123,7 @@ function HomePage() {
           />
         </div>
       </Box>
-      <Box id="errorMessage" my={2} mx={35}>
+      <Box className="errorMessage" my={2} mx={35}>
         {{
           buttonClick,
         } ? (
@@ -132,11 +131,11 @@ function HomePage() {
         ) : null}
       </Box>
       <Box>
-        <Button variant="contained" onClick={saveLeave} id="saveButton">
+        <Button variant="contained" onClick={saveLeave} className="saveButton">
           Save Leave
         </Button>
       </Box>
-      <Box id="calendar">
+      <Box className="calendar">
         <MyCalendar />
       </Box>
     </div>
@@ -144,4 +143,3 @@ function HomePage() {
 }
 
 export default HomePage;
-/* eslint-disable */

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect, useCallback } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
@@ -10,12 +9,13 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import axios from './axiosInstance';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { validateAccessToken } from './ValidateToken';
-import DateTimePickerComponent from './DateTimePicker';
+import { validateAccessToken } from '../utils/ValidateToken';
+import { startDate } from '../utils/startDate';
+import { endDate } from '../utils/endDate';
 
 const localizer = momentLocalizer(moment);
 
-function myCalendar() {
+function MyCalendar() {
   const [myEvents, setMyEvents] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = useState();
@@ -32,41 +32,20 @@ function myCalendar() {
   const [responseText, setResponseText] = useState('');
   const navigate = useNavigate();
 
-  function startDate() {
-    const date = new Date();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = '01';
-    return [date.getFullYear(), month, day].join('-');
-  }
-
-  function endDate() {
-    const currMonth = new Date().getMonth();
-    if (currMonth === 11) {
-      const date = new Date();
-      const month = ('0' + (date.getMonth() + 1)).slice(-2);
-      const day = '31';
-      return [date.getFullYear(), month, day].join('-');
-    } else {
-      const date = new Date();
-      const month = ('0' + (date.getMonth() + 2)).slice(-2);
-      const day = '01';
-      return [date.getFullYear(), month, day].join('-');
-    }
-  }
-
   function convert(str) {
     const date = new Date(str);
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + date.getDate()).slice(-2);
+    const month = `0${date.getMonth() + 1}`.slice(-2);
+    const day = `0${date.getDate()}`.slice(-2);
     return [date.getFullYear(), month, day].join('-');
   }
 
   const getEvents = useCallback((start, end) => {
+    const token = 'Token ';
     axios({
       method: 'get',
-      url: 'leaves/leaves/' + start + '/' + end + '/',
+      url: `leaves/leaves/${start}/${end}`,
       headers: {
-        Authorization: 'Token ' + localStorage.getItem('token'),
+        Authorization: `${token}${localStorage.getItem('token')}`,
       },
     }).then((response) => {
       const data = response.data;
@@ -74,38 +53,34 @@ function myCalendar() {
       const events = [];
       for (let i = 0; i < len; i++) {
         const startTemp = data[i].started_at;
-        const startStr =
-          startTemp.substr(0, 10) + ' ' + startTemp.substr(11, 8);
+        const startStr = `${startTemp.substr(0, 10)} ${startTemp.substr(11, 8)}`;
 
         const endTemp = data[i].ended_at;
-        const endStr = endTemp.substr(0, 10) + ' ' + endTemp.substr(11, 8);
+        const endStr = `${endTemp.substr(0, 10)} ${endTemp.substr(11, 8)}`;
 
         events.push({
           start: new Date(startStr),
           end: new Date(endStr),
-          id: data[i].id,
-          title:
-            data[i].first_name +
-            ' ' +
-            data[i].last_name +
-            '; Reason: ' +
-            data[i].reason,
+          title: `${data[i].first_name} ${data[i].last_name}; Reason: ${data[i].reason}`,
         });
       }
       setMyEvents(events);
     });
   }, []);
 
-  function handleRangeChange(event) {
-    const startDateString = convert(event.start.toString());
-    const endDateString = convert(event.end.toString());
-    getEvents(startDateString, endDateString);
-  }
+  const handleRangeChange = useCallback(
+    (event) => {
+      const startDateString = convert(event.start.toString());
+      const endDateString = convert(event.end.toString());
+      getEvents(startDateString, endDateString);
+    },
+    [getEvents],
+  );
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.clear();
     navigate('/');
-  };
+  }, [navigate]);
 
   const updateCalendar = useCallback(() => {
     const access_token = localStorage.getItem('access_token');
@@ -117,7 +92,7 @@ function myCalendar() {
     } else {
       logout();
     }
-  });
+  }, [getEvents, logout]);
 
   const handleSelected = (event) => {
     setSelected(event);
@@ -130,7 +105,7 @@ function myCalendar() {
 
   useEffect(() => {
     updateCalendar();
-  }, []);
+  }, [updateCalendar]);
 
   const saveChange = useCallback((startDate, endDate, newReason) => {
     axios({
@@ -238,5 +213,4 @@ function myCalendar() {
   );
 }
 
-export default myCalendar;
-/* eslint-disable */
+export default MyCalendar;
