@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useCallback } from 'react';
 import '../App.css';
 import Box from '@mui/material/Box';
@@ -53,7 +52,7 @@ function LandingPage() {
     form_data.append('code', response.code);
     form_data.append('client_id', process.env.REACT_APP_CLIENT_ID);
     form_data.append('client_secret', process.env.REACT_APP_CLIENT_SECRET);
-    form_data.append('redirect_uri', 'https://devika-leave-tracker.herokuapp.com');
+    form_data.append('redirect_uri', 'http://localhost:3000');
     form_data.append('grant_type', 'authorization_code');
     axios({
       method: 'post',
@@ -76,12 +75,12 @@ function LandingPage() {
 
   const onFailure = () => { };
   return (
-    <Box id="landingPage">
-      <Box id="landingPageBox" width={400} height={200}>
-        <Box id="landingPagelogo" />
+    <Box className="landingPage">
+      <Box className="landingPageBox" width={400} height={200}>
+        <Box className="landingPagelogo" />
         <Typography
           variant="h5"
-          id="landingPageTitle"
+          className="landingPageTitle"
           gutterBottom
           component="div"
         >
@@ -105,7 +104,7 @@ function LandingPage() {
             buttonText="Sign In"
             onSuccess={onSuccess}
             onFailure={onFailure}
-            style={{ marginTop: '1em' }}
+            className="googleLogin"
             prompt="consent"
           />
         </div>
@@ -115,4 +114,3 @@ function LandingPage() {
 }
 
 export default LandingPage;
-/* eslint-disable */

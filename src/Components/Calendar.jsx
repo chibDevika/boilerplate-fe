@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect, useCallback } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
@@ -6,34 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import axios from './axiosInstance';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { validateAccessToken } from './ValidateToken';
+import { startDate } from './startDate';
+import { endDate } from './endDate';
 
 const localizer = momentLocalizer(moment);
 
 function myCalendar() {
   const [myEvents, setMyEvents] = useState([]);
   const navigate = useNavigate();
-
-  function startDate() {
-    const date = new Date();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = '01';
-    return [date.getFullYear(), month, day].join('-');
-  }
-
-  function endDate() {
-    const currMonth = new Date().getMonth();
-    if (currMonth === 11) {
-      const date = new Date();
-      const month = ('0' + (date.getMonth() + 1)).slice(-2);
-      const day = '31';
-      return [date.getFullYear(), month, day].join('-');
-    } else {
-      const date = new Date();
-      const month = ('0' + (date.getMonth() + 2)).slice(-2);
-      const day = '01';
-      return [date.getFullYear(), month, day].join('-');
-    }
-  }
 
   function convert(str) {
     const date = new Date(str);
@@ -76,16 +55,16 @@ function myCalendar() {
     });
   }, []);
 
-  function handleRangeChange(event) {
+  const handleRangeChange = useCallback((event) => {
     const startDateString = convert(event.start.toString());
     const endDateString = convert(event.end.toString());
     getEvents(startDateString, endDateString);
-  }
+  });
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.clear();
     navigate('/');
-  };
+  });
 
   const updateCalendar = useCallback(() => {
     const access_token = localStorage.getItem('access_token');
@@ -118,4 +97,4 @@ function myCalendar() {
 }
 
 export default myCalendar;
-/* eslint-disable */
+

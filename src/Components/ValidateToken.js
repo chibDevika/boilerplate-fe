@@ -1,4 +1,3 @@
-/* eslint-disable */
 import axios from 'axios';
 
 const generateAccessToken = async () => {
@@ -46,4 +45,3 @@ export async function validateAccessToken() {
       localStorage.clear();
     });
 }
-/* eslint-disable */

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -18,4 +17,3 @@ export default function DateTimePickerComponent(props) {
     </LocalizationProvider>
   );
 }
-/* eslint-disable */

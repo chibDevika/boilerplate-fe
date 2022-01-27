@@ -26,28 +26,32 @@
   color: rgb(112, 76, 182);
 }
 
-#bodyBox {
+.bodyBox {
   margin-left: 30%;
   margin-right: 30%;
 }
 
-#calendar {
+.calendar {
   margin-top: 3em;
   background-color: white;
   flex-grow: 1;
 }
 
-#errorMessage {
+.errorMessage {
   background-color: var(--error-message-blue);
 }
 
-#homePageDiv {
+.googleLogin {
+  margin-top: 1rem;
+}
+
+.homePageDiv {
   background-image: url(paper.png);
   height: 60rem;
   width: 100%;
 }
 
-#title {
+.title {
   font-weight: 700;
   margin-left: 0.5rem;
   margin: 0.5rem;
@@ -72,15 +76,15 @@
   --squad-blue: #2c384c;
 }
 
-#landingPage {
+.landingPage {
   background-color: var(--squad-blue);
-  margin: 0em;
-  padding: 0em;
+  margin: 0rem;
+  padding: 0rem;
   height: 100vh;
   width: 100vw;
 }
 
-#landingPagelogo {
+.landingPagelogo {
   background-image: url(squadstack-logo.png);
   height: 4rem;
   width: 15rem;
@@ -90,20 +94,20 @@
   padding-top: 0.5rem;
 }
 
-#landingPageBox {
+.landingPageBox {
   margin: auto;
-  background-color: #f07549;
+  background-color: var(--squad-orange);
   border-radius: 0.5rem;
   box-shadow: 1rem;
 }
 
-#landingPageTitle {
+.landingPageTitle {
   color: white;
   font-weight: 200rem;
   padding: 1rem;
 }
 
-#logo {
+.logo {
   background-image: url(logo.png);
   background-size: contain;
   height: 2.3rem;
@@ -112,19 +116,19 @@
   padding: 0.1em;
 }
 
-#nameAndLogo {
+.nameAndLogo {
   display: flex;
   text-align: center;
 }
 
-#navBar {
+.navBar {
   background-color: var(--squad-orange);
   display: flex;
   padding: 0.5rem;
   align-items: center;
 }
 
-#saveButton {
+.saveButton {
   margin: auto;
 }
 
