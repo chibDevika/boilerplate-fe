@@ -19,7 +19,11 @@ function myCalendar() {
   const [myEvents, setMyEvents] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = useState();
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setButtonClick(false);
+    setResponseText('');
+    setOpen(false);
+  };
   const [reason, setReason] = useState(' ');
   const [start, setStartDate] = useState(moment());
   const [end, setEndDate] = useState(moment());
