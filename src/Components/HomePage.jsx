@@ -10,7 +10,7 @@ import moment from 'moment';
 import DateTimePickerComponent from './DateTimePicker';
 import MyCalendar from './Calendar';
 import axios from './axiosInstance';
-import { validateAccessToken } from './ValidateToken';
+import { validateAccessToken } from '../utils/ValidateToken';
 
 function HomePage() {
   const [reason, setReason] = useState(' ');

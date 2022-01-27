@@ -7,7 +7,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import axios from './axiosInstance';
-import { validateAccessToken } from './ValidateToken';
+import { validateAccessToken } from '../utils/ValidateToken';
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ function LandingPage() {
     form_data.append('code', response.code);
     form_data.append('client_id', process.env.REACT_APP_CLIENT_ID);
     form_data.append('client_secret', process.env.REACT_APP_CLIENT_SECRET);
-    form_data.append('redirect_uri', 'http://localhost:3000');
+    form_data.append('redirect_uri', process.env.REACT_APP_REDIRECT_URI);
     form_data.append('grant_type', 'authorization_code');
     axios({
       method: 'post',

@@ -4,9 +4,9 @@ import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import axios from './axiosInstance';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { validateAccessToken } from './ValidateToken';
-import { startDate } from './startDate';
-import { endDate } from './endDate';
+import { validateAccessToken } from '../utils/ValidateToken';
+import { startDate } from '../utils/startDate';
+import { endDate } from '../utils/endDate';
 
 const localizer = momentLocalizer(moment);
 
@@ -22,11 +22,12 @@ function myCalendar() {
   }
 
   const getEvents = useCallback((start, end) => {
+    const token = 'Token ';
     axios({
       method: 'get',
       url: 'leaves/leaves/' + start + '/' + end,
       headers: {
-        Authorization: 'Token ' + localStorage.getItem('token'),
+        Authorization: `${token}` + localStorage.getItem('token'),
       },
     }).then((response) => {
       const data = response.data;
