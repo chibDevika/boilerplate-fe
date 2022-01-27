@@ -44,7 +44,7 @@ function LandingPage() {
       'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=';
     axios({
       method: 'get',
-      url: `${url}` + localStorage.getItem('access_token'),
+      url: `${url}${localStorage.getItem('access_token')}`,
     }).then((response) => {
       sendPostRequest(response);
     });

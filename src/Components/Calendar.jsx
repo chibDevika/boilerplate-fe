@@ -16,8 +16,8 @@ function MyCalendar() {
 
   function convert(str) {
     const date = new Date(str);
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + date.getDate()).slice(-2);
+    const month = `0${date.getMonth() + 1}`.slice(-2);
+    const day = `0${date.getDate()}`.slice(-2);
     return [date.getFullYear(), month, day].join('-');
   }
 
@@ -25,9 +25,9 @@ function MyCalendar() {
     const token = 'Token ';
     axios({
       method: 'get',
-      url: 'leaves/leaves/' + start + '/' + end,
+      url: `leaves/leaves/${start}/${end}`,
       headers: {
-        Authorization: `${token}` + localStorage.getItem('token'),
+        Authorization: `${token}${localStorage.getItem('token')}`,
       },
     }).then((response) => {
       const data = response.data;
@@ -35,21 +35,15 @@ function MyCalendar() {
       const events = [];
       for (let i = 0; i < len; i++) {
         const startTemp = data[i].started_at;
-        const startStr =
-          startTemp.substr(0, 10) + ' ' + startTemp.substr(11, 8);
+        const startStr = `${startTemp.substr(0, 10)} ${startTemp.substr(11, 8)}`;
 
         const endTemp = data[i].ended_at;
-        const endStr = endTemp.substr(0, 10) + ' ' + endTemp.substr(11, 8);
+        const endStr = `${endTemp.substr(0, 10)} ${endTemp.substr(11, 8)}`;
 
         events.push({
           start: new Date(startStr),
           end: new Date(endStr),
-          title:
-            data[i].first_name +
-            ' ' +
-            data[i].last_name +
-            '; Reason:' +
-            data[i].reason,
+          title: `${data[i].first_name} ${data[i].last_name}; Reason: ${data[i].reason}`,
         });
       }
       setMyEvents(events);
