@@ -40,11 +40,9 @@ function LandingPage() {
   );
 
   const getUserDetails = useCallback(() => {
-    const url =
-      'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=';
     axios({
       method: 'get',
-      url: `${url}${localStorage.getItem('access_token')}`,
+      url: `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${localStorage.getItem('access_token')}`,
     }).then((response) => {
       sendPostRequest(response);
     });
@@ -72,12 +70,13 @@ function LandingPage() {
         getUserDetails();
       });
     },
-    [getUserDetails]);
+    [getUserDetails],
+  );
   const onSuccess = (response) => {
     getRefreshToken(response);
   };
 
-  const onFailure = () => {};
+  const onFailure = () => { };
   return (
     <Box className="landingPage">
       <Box className="landingPageBox" width={400} height={200}>

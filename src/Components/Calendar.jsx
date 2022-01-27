@@ -12,12 +12,15 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { validateAccessToken } from '../utils/ValidateToken';
 import { startDate } from '../utils/startDate';
 import { endDate } from '../utils/endDate';
+import DateTimePickerComponent from './DateTimePicker';
 
 const localizer = momentLocalizer(moment);
 
 function MyCalendar() {
   const [myEvents, setMyEvents] = useState([]);
   const [open, setOpen] = React.useState(false);
+  const [buttonClick, setButtonClick] = useState(false);
+  const [responseText, setResponseText] = useState('');
   const [selected, setSelected] = useState();
   const handleClose = () => {
     setButtonClick(false);
@@ -28,8 +31,6 @@ function MyCalendar() {
   const [start, setStartDate] = useState(moment());
   const [end, setEndDate] = useState(moment());
   const [leaveID, SetLeaveID] = useState();
-  const [buttonClick, setButtonClick] = useState(false);
-  const [responseText, setResponseText] = useState('');
   const navigate = useNavigate();
 
   function convert(str) {
@@ -40,12 +41,11 @@ function MyCalendar() {
   }
 
   const getEvents = useCallback((start, end) => {
-    const token = 'Token ';
     axios({
       method: 'get',
       url: `leaves/leaves/${start}/${end}`,
       headers: {
-        Authorization: `${token}${localStorage.getItem('token')}`,
+        Authorization: `Token ${localStorage.getItem('token')}`,
       },
     }).then((response) => {
       const data = response.data;
@@ -107,29 +107,31 @@ function MyCalendar() {
     updateCalendar();
   }, [updateCalendar]);
 
-  const saveChange = useCallback((startDate, endDate, newReason) => {
-    axios({
-      method: 'patch',
-      url: 'leaves/leaves/' + leaveID + '/',
-      data: {
-        employee: localStorage.getItem('emp_id'),
-        started_at: startDate,
-        ended_at: endDate,
-        reason: newReason,
-      },
-      headers: {
-        Authorization: 'Token ' + localStorage.getItem('token'),
-      },
-    })
-      .then((result) => {
-        setButtonClick(true);
-        setResponseText('Updated Leave Successfully!');
+  const saveChange = useCallback(
+    (startDate, endDate, newReason) => {
+      axios({
+        method: 'patch',
+        url: `leaves/leaves/'${leaveID}/`,
+        data: {
+          employee: localStorage.getItem('emp_id'),
+          started_at: startDate,
+          ended_at: endDate,
+          reason: newReason,
+        },
+        headers: {
+          Authorization: `Token ${localStorage.getItem('token')}`,
+        },
       })
-      .catch((error) => {
-        setButtonClick(true);
-        setResponseText(error.response.data.non_field_errors.toString());
-      });
-  });
+        .then((result) => {
+          setButtonClick(true);
+          setResponseText('Updated Leave Successfully!');
+        })
+        .catch((error) => {
+          setButtonClick(true);
+          setResponseText(error.response.data.non_field_errors.toString());
+        });
+    },
+    [leaveID]);
 
   return (
     <div>
@@ -140,8 +142,8 @@ function MyCalendar() {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box id="popup">
-            <Box p={2} id="bodyBox">
+          <Box className="popup">
+            <Box p={2} className="bodyBox">
               <div className="inputBox">
                 <Typography variant="h6" my={1}>
                   Start Date and Time
@@ -175,7 +177,7 @@ function MyCalendar() {
                   }}
                 />
               </div>
-              <Box id="errorMessage">
+              <Box className="errorMessage">
                 {{
                   buttonClick,
                 } ? (
@@ -188,10 +190,9 @@ function MyCalendar() {
                     moment(start).format('YYYY-MM-DD HH:mm:ss'),
                     moment(end).format('YYYY-MM-DD HH:mm:ss'),
                     { reason }.reason,
-                  )
-                }
+                  )}
                 variant="contained"
-                id="saveChangeButton"
+                className="saveChangeButton"
               >
                 Save Changes
               </Button>

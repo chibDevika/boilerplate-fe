@@ -36,7 +36,7 @@ function HomePage() {
         reason: newReason,
       },
       headers: {
-        Authorization: 'Token ' + localStorage.getItem('token'),
+        Authorization: `Token ${localStorage.getItem('token')}`,
       },
     })
       .then((result) => {
