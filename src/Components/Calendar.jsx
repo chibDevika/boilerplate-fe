@@ -33,6 +33,11 @@ function MyCalendar() {
   const [leaveID, setLeaveID] = useState();
   const navigate = useNavigate();
 
+  const logout = useCallback(() => {
+    localStorage.clear();
+    navigate('/');
+  }, [navigate]);
+
   function convert(str) {
     const date = new Date(str);
     const month = `0${date.getMonth() + 1}`.slice(-2);
@@ -40,37 +45,39 @@ function MyCalendar() {
     return [date.getFullYear(), month, day].join('-');
   }
 
-  const getEvents = useCallback((starting, ending) =>
-    axios({
-      method: 'get',
-      url: `leaves/leaves/${starting}/${ending}`,
-      headers: {
-        Authorization: `Token ${localStorage.getItem('token')}`,
-      },
-    }).then((response) => {
-      const { data } = response;
-      const len = data.length;
-      const events = [];
-      for (let i = 0; i < len; i++) {
-        const startTemp = data[i].started_at;
-        const startStr = `${startTemp.substr(0, 10)} ${startTemp.substr(
-          11,
-          8,
-        )}`;
+  const getEvents = useCallback(
+    (starting, ending) =>
+      axios({
+        method: 'get',
+        url: `leaves/leaves/${starting}/${ending}`,
+        headers: {
+          Authorization: `Token ${localStorage.getItem('token')}`,
+        },
+      }).then((response) => {
+        const { data } = response;
+        const len = data.length;
+        const events = [];
+        for (let i = 0; i < len; i++) {
+          const startTemp = data[i].started_at;
+          const startStr = `${startTemp.substr(0, 10)} ${startTemp.substr(
+            11,
+            8,
+          )}`;
 
-        const endTemp = data[i].ended_at;
-        const endStr = `${endTemp.substr(0, 10)} ${endTemp.substr(11, 8)}`;
+          const endTemp = data[i].ended_at;
+          const endStr = `${endTemp.substr(0, 10)} ${endTemp.substr(11, 8)}`;
 
-        events.push({
-          start: new Date(startStr),
-          end: new Date(endStr),
-          id: data[i].id,
-          title: `${data[i].first_name} ${data[i].last_name}; Reason: ${data[i].reason}`,
-        });
-      }
-      setMyEvents(events);
-    });
-  }, []);
+          events.push({
+            start: new Date(startStr),
+            end: new Date(endStr),
+            id: data[i].id,
+            title: `${data[i].first_name} ${data[i].last_name}; Reason: ${data[i].reason}`,
+          });
+        }
+        setMyEvents(events);
+      }),
+    [],
+  );
 
   const handleRangeChange = useCallback(
     (event) => {
@@ -166,7 +173,7 @@ function MyCalendar() {
                   updateDate={(startingTime) =>
                     setStartDate(moment(startingTime))
                   }
-                /* eslint-disable */
+                  /* eslint-disable */
                 />
               </div>
               <div className="inputBox">
