@@ -136,7 +136,7 @@ function MyCalendar() {
           Authorization: `Token ${localStorage.getItem('token')}`,
         },
       })
-        .then((result) => {
+        .then(() => {
           setButtonClick(true);
           setResponseText('Updated Leave Successfully!');
         })
@@ -151,6 +151,42 @@ function MyCalendar() {
   const handleReasonChange = useCallback((event) => {
     setReason(event.target.value);
   }, []);
+
+  const sendDeleteRequest = useCallback(() => {
+    axios({
+      method: 'patch',
+      url: `leaves/leaves/${leaveID}/`,
+      data: {
+        is_active: false,
+      },
+      headers: {
+        Authorization: `Token ${localStorage.getItem('token')}`,
+      },
+    })
+      .then(() => {
+        setButtonClick(true);
+        setResponseText('Deleted Leave Successfully!');
+      })
+      .catch((error) => {
+        setButtonClick(true);
+        setResponseText(error.response.data.non_field_errors.toString());
+      });
+  }, [leaveID]);
+
+  const handleDeleteLeave = useCallback(
+    (event) => {
+      const access_token = localStorage.getItem('access_token');
+      if (access_token) {
+        const response = validateAccessToken();
+        response.then(() => {
+          sendDeleteRequest();
+        });
+      } else {
+        logout();
+      }
+    },
+    [sendDeleteRequest, logout],
+  );
 
   return (
     <div>
@@ -202,24 +238,35 @@ function MyCalendar() {
                 {{
                   buttonClick,
                 } ? (
-                  <Typography margin="auto">{responseText}</Typography>
+                  <Typography>{responseText}</Typography>
                 ) : null}
               </Box>
-              <Button
-                onClick={() =>
-                  saveChange(
-                    moment(start).format('YYYY-MM-DD HH:mm:ss'),
-                    moment(end).format('YYYY-MM-DD HH:mm:ss'),
-                    /* eslint-disable */
-                    { reason }.reason,
-                    /* eslint-disable */
-                  )
-                }
-                variant="contained"
-                className="saveChangeButton"
-              >
-                Save Changes
-              </Button>
+              <div className="buttonDiv">
+                <Button
+                  onClick={() =>
+                    saveChange(
+                      moment(start).format('YYYY-MM-DD HH:mm:ss'),
+                      moment(end).format('YYYY-MM-DD HH:mm:ss'),
+                      /* eslint-disable */
+                      { reason }.reason,
+                      /* eslint-disable */
+                    )
+                  }
+                  color="success"
+                  variant="contained"
+                  className="saveChangeButton"
+                >
+                  Save
+                </Button>
+                <Button
+                  onClick={handleDeleteLeave}
+                  variant="contained"
+                  color="error"
+                  className="deleteButton"
+                >
+                  Delete
+                </Button>
+              </div>
             </Box>
           </Box>
         </Modal>
