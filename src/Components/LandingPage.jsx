@@ -66,17 +66,17 @@ function LandingPage() {
       }).then((res) => {
         localStorage.setItem('access_token', res.data.access_token);
         localStorage.setItem('refresh_token', res.data.refresh_token);
-        localStorage.setItem('expires_in', res.data.expires_in);
         getUserDetails();
       });
     },
     [getUserDetails],
   );
+
   const onSuccess = (response) => {
     getRefreshToken(response);
   };
 
-  const onFailure = () => { };
+  const onFailure = () => {};
   return (
     <Box className="landingPage">
       <Box className="landingPageBox" width={400} height={200}>
