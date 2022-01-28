@@ -1,3 +1,4 @@
+/* eslint-disable */
 export function endDate() {
   const currMonth = new Date().getMonth();
   if (currMonth === 11) {
@@ -12,3 +13,4 @@ export function endDate() {
     return [date.getFullYear(), month, day].join('-');
   }
 }
+/* eslint-disable */

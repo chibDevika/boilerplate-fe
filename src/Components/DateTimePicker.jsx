@@ -9,10 +9,12 @@ export default function DateTimePickerComponent(props) {
     <LocalizationProvider dateAdapter={MomentUtils}>
       <DateTimePicker
         renderInput={(params) => <TextField {...params} />}
+        /* eslint-disable */
         value={props.date}
         onChange={(value) => {
           props.updateDate(value);
         }}
+      /* eslint-disable */
       />
     </LocalizationProvider>
   );
