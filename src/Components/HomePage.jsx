@@ -25,29 +25,53 @@ function HomePage() {
     navigate('/');
   };
 
-  const sendRequest = useCallback((startDate, endDate, newReason) => {
-    axios({
-      method: 'post',
-      url: 'leaves/leaves/',
-      data: {
-        employee: localStorage.getItem('emp_id'),
-        started_at: startDate,
-        ended_at: endDate,
-        reason: newReason,
-      },
-      headers: {
-        Authorization: `Token ${localStorage.getItem('token')}`,
-      },
-    })
-      .then((result) => {
-        setButtonClick(true);
-        setResponseText('Saved leave successfully!');
-      })
-      .catch((error) => {
-        setButtonClick(true);
-        setResponseText(error.response.data.non_field_errors.toString());
-      });
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
+  const removeErrorMessage = useCallback(() => {
+    setTimeout(() => {
+      setButtonClick(false);
+      setResponseText('');
+    }, 10000);
   }, []);
+
+  const removeSuccessMessage = useCallback(() => {
+    setTimeout(() => {
+      setButtonClick(false);
+      setResponseText('');
+    }, 2000);
+    refreshPage();
+  }, []);
+
+  const sendRequest = useCallback(
+    (startDate, endDate, newReason) => {
+      axios({
+        method: 'post',
+        url: 'leaves/leaves/',
+        data: {
+          employee: localStorage.getItem('emp_id'),
+          started_at: startDate,
+          ended_at: endDate,
+          reason: newReason,
+        },
+        headers: {
+          Authorization: `Token ${localStorage.getItem('token')}`,
+        },
+      })
+        .then((result) => {
+          setButtonClick(true);
+          setResponseText('Saved leave successfully!');
+          removeSuccessMessage();
+        })
+        .catch((error) => {
+          setButtonClick(true);
+          setResponseText(error.response.data.non_field_errors.toString());
+          removeErrorMessage();
+        });
+    },
+    [removeErrorMessage, removeSuccessMessage],
+  );
 
   const saveLeave = () => {
     const access_token = localStorage.getItem('access_token');

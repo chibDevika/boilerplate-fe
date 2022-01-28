@@ -38,6 +38,21 @@ function MyCalendar() {
     navigate('/');
   }, [navigate]);
 
+  const removeErrorMessage = useCallback(() => {
+    setTimeout(() => {
+      setButtonClick(false);
+      setResponseText('');
+    }, 10000);
+  }, []);
+
+  const removeSuccessMessage = useCallback(() => {
+    setTimeout(() => {
+      setButtonClick(false);
+      setResponseText('');
+      handleClose();
+    }, 2000);
+  }, [handleClose]);
+
   function convert(str) {
     const date = new Date(str);
     const month = `0${date.getMonth() + 1}`.slice(-2);
@@ -139,13 +154,16 @@ function MyCalendar() {
         .then(() => {
           setButtonClick(true);
           setResponseText('Updated Leave Successfully!');
+          removeErrorMessage();
+          updateCalendar();
         })
         .catch((error) => {
           setButtonClick(true);
           setResponseText(error.response.data.non_field_errors.toString());
+          removeErrorMessage();
         });
     },
-    [leaveID],
+    [leaveID, removeErrorMessage, updateCalendar],
   );
 
   const handleReasonChange = useCallback((event) => {
@@ -166,12 +184,15 @@ function MyCalendar() {
       .then(() => {
         setButtonClick(true);
         setResponseText('Deleted Leave Successfully!');
+        updateCalendar();
+        removeErrorMessage();
       })
       .catch((error) => {
         setButtonClick(true);
         setResponseText(error.response.data.non_field_errors.toString());
+        removeErrorMessage();
       });
-  }, [leaveID]);
+  }, [leaveID, updateCalendar, removeErrorMessage]);
 
   const handleDeleteLeave = useCallback(
     (event) => {
@@ -242,30 +263,32 @@ function MyCalendar() {
                 ) : null}
               </Box>
               <div className="buttonDiv">
-                <Button
-                  onClick={() =>
-                    saveChange(
-                      moment(start).format('YYYY-MM-DD HH:mm:ss'),
-                      moment(end).format('YYYY-MM-DD HH:mm:ss'),
-                      /* eslint-disable */
-                      { reason }.reason,
-                      /* eslint-disable */
-                    )
-                  }
-                  color="success"
-                  variant="contained"
-                  className="saveChangeButton"
-                >
-                  Save
-                </Button>
-                <Button
-                  onClick={handleDeleteLeave}
-                  variant="contained"
-                  color="error"
-                  className="deleteButton"
-                >
-                  Delete
-                </Button>
+                <Box className="saveChangeButton">
+                  <Button
+                    onClick={() =>
+                      saveChange(
+                        moment(start).format('YYYY-MM-DD HH:mm:ss'),
+                        moment(end).format('YYYY-MM-DD HH:mm:ss'),
+                        /* eslint-disable */
+                        { reason }.reason,
+                        /* eslint-disable */
+                      )
+                    }
+                    color="success"
+                    variant="contained"
+                  >
+                    Save
+                  </Button>
+                </Box>
+                <Box className="deleteButton">
+                  <Button
+                    onClick={handleDeleteLeave}
+                    variant="contained"
+                    color="error"
+                  >
+                    Delete
+                  </Button>
+                </Box>
               </div>
             </Box>
           </Box>

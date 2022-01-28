@@ -32,7 +32,8 @@
 }
 
 .buttonDiv {
-  display: block;
+  display: flex;
+  align-items: center;
 }
 
 .calendar {
@@ -42,7 +43,7 @@
 }
 
 .deleteButton {
-  margin: 2rem;
+  margin: auto;
 }
 
 .errorMessage {
@@ -92,11 +93,13 @@
 }
 
 .landingPage {
-  background-color: var(--squad-blue);
+  /* background-image: url(desktop.jfif); */
+  background-size: 1600px 800px;
+  background-repeat: no-repeat;
   margin: 0rem;
-  padding: 0.8rem;
-  height: 100vh;
-  width: 100vw;
+  padding-top: 5rem;
+  height: 88vh;
+  width: 80vw;
 }
 
 .landingPagelogo {
