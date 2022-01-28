@@ -2,16 +2,35 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import axios from './axiosInstance';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { validateAccessToken } from '../utils/ValidateToken';
 import { startDate } from '../utils/startDate';
 import { endDate } from '../utils/endDate';
+import DateTimePickerComponent from './DateTimePicker';
 
 const localizer = momentLocalizer(moment);
 
 function MyCalendar() {
   const [myEvents, setMyEvents] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [buttonClick, setButtonClick] = useState(false);
+  const [responseText, setResponseText] = useState('');
+  const [selected, setSelected] = useState();
+  const handleClose = useCallback(() => {
+    setButtonClick(false);
+    setResponseText('');
+    setOpen(false);
+  }, []);
+  const [reason, setReason] = useState(' ');
+  const [start, setStartDate] = useState(moment());
+  const [end, setEndDate] = useState(moment());
+  const [leaveID, setLeaveID] = useState();
   const navigate = useNavigate();
 
   function convert(str) {
@@ -21,18 +40,12 @@ function MyCalendar() {
     return [date.getFullYear(), month, day].join('-');
   }
 
-  const logout = useCallback(() => {
-    localStorage.clear();
-    navigate('/');
-  }, [navigate]);
-
-  const getEvents = useCallback((start, end) => {
-    const token = 'Token ';
+  const getEvents = useCallback((starting, ending) =>
     axios({
       method: 'get',
-      url: `leaves/leaves/${start}/${end}`,
+      url: `leaves/leaves/${starting}/${ending}`,
       headers: {
-        Authorization: `${token}${localStorage.getItem('token')}`,
+        Authorization: `Token ${localStorage.getItem('token')}`,
       },
     }).then((response) => {
       const { data } = response;
@@ -51,6 +64,7 @@ function MyCalendar() {
         events.push({
           start: new Date(startStr),
           end: new Date(endStr),
+          id: data[i].id,
           title: `${data[i].first_name} ${data[i].last_name}; Reason: ${data[i].reason}`,
         });
       }
@@ -87,12 +101,122 @@ function MyCalendar() {
     }
   }, [getEvents, logout]);
 
+  const handleSelected = useCallback((event) => {
+    setSelected(event);
+    setStartDate(event.start);
+    setEndDate(event.end);
+    setLeaveID(event.id);
+    setReason(event.title.split('Reason:')[1]);
+    setOpen(true);
+  }, []);
+
   useEffect(() => {
     updateCalendar();
   }, [updateCalendar]);
 
+  const saveChange = useCallback(
+    (startingDate, endingDate, newReason) => {
+      axios({
+        method: 'patch',
+        url: `leaves/leaves/${leaveID}/`,
+        data: {
+          employee: localStorage.getItem('emp_id'),
+          started_at: startingDate,
+          ended_at: endingDate,
+          reason: newReason,
+        },
+        headers: {
+          Authorization: `Token ${localStorage.getItem('token')}`,
+        },
+      })
+        .then((result) => {
+          setButtonClick(true);
+          setResponseText('Updated Leave Successfully!');
+        })
+        .catch((error) => {
+          setButtonClick(true);
+          setResponseText(error.response.data.non_field_errors.toString());
+        });
+    },
+    [leaveID],
+  );
+
+  const handleReasonChange = useCallback((event) => {
+    setReason(event.target.value);
+  }, []);
+
   return (
     <div>
+      <div>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box className="popup">
+            <Box p={2} className="bodyBox">
+              <div className="inputBox">
+                <Typography variant="h6" my={1}>
+                  Start Date and Time
+                </Typography>
+                <DateTimePickerComponent
+                  date={start}
+                  /* eslint-disable */
+                  updateDate={(startingTime) =>
+                    setStartDate(moment(startingTime))
+                  }
+                /* eslint-disable */
+                />
+              </div>
+              <div className="inputBox">
+                <Typography variant="h6" my={1}>
+                  End Date and Time
+                </Typography>
+                <DateTimePickerComponent
+                  date={end}
+                  updateDate={(endingTime) => setEndDate(moment(endingTime))}
+                />
+              </div>
+              <div className="inputBox" mt={2}>
+                <Typography variant="h6" my={1}>
+                  Reason
+                </Typography>
+                <TextField
+                  id="outlined-basic"
+                  label="Mention your reason"
+                  variant="outlined"
+                  multiline
+                  defaultValue={reason}
+                  onChange={handleReasonChange}
+                />
+              </div>
+              <Box className="errorMessage">
+                {{
+                  buttonClick,
+                } ? (
+                  <Typography margin="auto">{responseText}</Typography>
+                ) : null}
+              </Box>
+              <Button
+                onClick={() =>
+                  saveChange(
+                    moment(start).format('YYYY-MM-DD HH:mm:ss'),
+                    moment(end).format('YYYY-MM-DD HH:mm:ss'),
+                    /* eslint-disable */
+                    { reason }.reason,
+                    /* eslint-disable */
+                  )
+                }
+                variant="contained"
+                className="saveChangeButton"
+              >
+                Save Changes
+              </Button>
+            </Box>
+          </Box>
+        </Modal>
+      </div>
       <Calendar
         localizer={localizer}
         events={myEvents}
@@ -100,6 +224,8 @@ function MyCalendar() {
         endAccessor="end"
         style={{ height: 600 }}
         onRangeChange={handleRangeChange}
+        selected={selected}
+        onSelectEvent={handleSelected}
       />
     </div>
   );

@@ -39,6 +39,7 @@
 
 .errorMessage {
   background-color: var(--error-message-blue);
+  margin: auto;
 }
 
 .googleLogin {
@@ -66,6 +67,12 @@
   display: flex;
   align-items: center;
   margin: 0.5rem;
+}
+
+.inputBox {
+  display: block;
+  align-items: center;
+  margin: 1rem;
 }
 
 :root {
@@ -98,7 +105,6 @@
   margin: auto;
   background-color: var(--squad-orange);
   border-radius: 0.5rem;
-  box-shadow: 1rem;
 }
 
 .landingPageTitle {
@@ -130,6 +136,24 @@
 
 .saveButton {
   margin: auto;
+}
+
+.saveChangeButton {
+  left: 22%;
+}
+
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 42rem;
+  height: 38rem;
+  background-color: var(--light-blue);
+  border: 1px solid;
+  box-shadow: 2rem;
+  padding: auto;
+  border-radius: 2rem;
 }
 
 @keyframes App-logo-float {
