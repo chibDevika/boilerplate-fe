@@ -96,7 +96,7 @@ function HomePage() {
           </Typography>
           <DateTimePickerComponent
             date={start}
-            updateDate={(start) => setStartDate(moment(start))}
+            updateDate={(starting) => setStartDate(moment(starting))}
           />
         </div>
         <div className="inputs">
@@ -105,7 +105,7 @@ function HomePage() {
           </Typography>
           <DateTimePickerComponent
             date={end}
-            updateDate={(end) => setEndDate(moment(end))}
+            updateDate={(ending) => setEndDate(moment(ending))}
           />
         </div>
         <div className="inputs" mt={2}>
