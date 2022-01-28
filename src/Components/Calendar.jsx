@@ -40,7 +40,7 @@ function MyCalendar() {
     return [date.getFullYear(), month, day].join('-');
   }
 
-  const getEvents = useCallback((starting, ending) => {
+  const getEvents = useCallback((starting, ending) =>
     axios({
       method: 'get',
       url: `leaves/leaves/${starting}/${ending}`,
@@ -74,17 +74,20 @@ function MyCalendar() {
 
   const handleRangeChange = useCallback(
     (event) => {
-      const startDateString = convert(event.start.toString());
-      const endDateString = convert(event.end.toString());
-      getEvents(startDateString, endDateString);
+      const access_token = localStorage.getItem('access_token');
+      if (access_token) {
+        const response = validateAccessToken();
+        response.then(() => {
+          const startDateString = convert(event.start.toString());
+          const endDateString = convert(event.end.toString());
+          getEvents(startDateString, endDateString);
+        });
+      } else {
+        logout();
+      }
     },
-    [getEvents],
+    [getEvents, logout],
   );
-
-  const logout = useCallback(() => {
-    localStorage.clear();
-    navigate('/');
-  }, [navigate]);
 
   const updateCalendar = useCallback(() => {
     const access_token = localStorage.getItem('access_token');
