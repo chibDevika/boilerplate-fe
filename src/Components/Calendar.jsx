@@ -22,15 +22,15 @@ function MyCalendar() {
   const [buttonClick, setButtonClick] = useState(false);
   const [responseText, setResponseText] = useState('');
   const [selected, setSelected] = useState();
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setButtonClick(false);
     setResponseText('');
     setOpen(false);
-  };
+  }, []);
   const [reason, setReason] = useState(' ');
   const [start, setStartDate] = useState(moment());
   const [end, setEndDate] = useState(moment());
-  const [leaveID, SetLeaveID] = useState();
+  const [leaveID, setLeaveID] = useState();
   const navigate = useNavigate();
 
   function convert(str) {
@@ -40,20 +40,23 @@ function MyCalendar() {
     return [date.getFullYear(), month, day].join('-');
   }
 
-  const getEvents = useCallback((start, end) => {
+  const getEvents = useCallback((starting, ending) => {
     axios({
       method: 'get',
-      url: `leaves/leaves/${start}/${end}`,
+      url: `leaves/leaves/${starting}/${ending}`,
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
       },
     }).then((response) => {
-      const data = response.data;
+      const { data } = response;
       const len = data.length;
       const events = [];
       for (let i = 0; i < len; i++) {
         const startTemp = data[i].started_at;
-        const startStr = `${startTemp.substr(0, 10)} ${startTemp.substr(11, 8)}`;
+        const startStr = `${startTemp.substr(0, 10)} ${startTemp.substr(
+          11,
+          8,
+        )}`;
 
         const endTemp = data[i].ended_at;
         const endStr = `${endTemp.substr(0, 10)} ${endTemp.substr(11, 8)}`;
@@ -61,6 +64,7 @@ function MyCalendar() {
         events.push({
           start: new Date(startStr),
           end: new Date(endStr),
+          id: data[i].id,
           title: `${data[i].first_name} ${data[i].last_name}; Reason: ${data[i].reason}`,
         });
       }
@@ -94,28 +98,28 @@ function MyCalendar() {
     }
   }, [getEvents, logout]);
 
-  const handleSelected = (event) => {
+  const handleSelected = useCallback((event) => {
     setSelected(event);
     setStartDate(event.start);
     setEndDate(event.end);
-    SetLeaveID(event.id);
+    setLeaveID(event.id);
     setReason(event.title.split('Reason:')[1]);
     setOpen(true);
-  };
+  }, []);
 
   useEffect(() => {
     updateCalendar();
   }, [updateCalendar]);
 
   const saveChange = useCallback(
-    (startDate, endDate, newReason) => {
+    (startingDate, endingDate, newReason) => {
       axios({
         method: 'patch',
-        url: `leaves/leaves/'${leaveID}/`,
+        url: `leaves/leaves/${leaveID}/`,
         data: {
           employee: localStorage.getItem('emp_id'),
-          started_at: startDate,
-          ended_at: endDate,
+          started_at: startingDate,
+          ended_at: endingDate,
           reason: newReason,
         },
         headers: {
@@ -131,7 +135,12 @@ function MyCalendar() {
           setResponseText(error.response.data.non_field_errors.toString());
         });
     },
-    [leaveID]);
+    [leaveID],
+  );
+
+  const handleReasonChange = useCallback((event) => {
+    setReason(event.target.value);
+  }, []);
 
   return (
     <div>
@@ -150,7 +159,11 @@ function MyCalendar() {
                 </Typography>
                 <DateTimePickerComponent
                   date={start}
-                  updateDate={(start) => setStartDate(moment(start))}
+                  /* eslint-disable */
+                  updateDate={(startingTime) =>
+                    setStartDate(moment(startingTime))
+                  }
+                /* eslint-disable */
                 />
               </div>
               <div className="inputBox">
@@ -159,7 +172,7 @@ function MyCalendar() {
                 </Typography>
                 <DateTimePickerComponent
                   date={end}
-                  updateDate={(end) => setEndDate(moment(end))}
+                  updateDate={(endingTime) => setEndDate(moment(endingTime))}
                 />
               </div>
               <div className="inputBox" mt={2}>
@@ -172,9 +185,7 @@ function MyCalendar() {
                   variant="outlined"
                   multiline
                   defaultValue={reason}
-                  onChange={(input) => {
-                    setReason(input.target.value);
-                  }}
+                  onChange={handleReasonChange}
                 />
               </div>
               <Box className="errorMessage">
@@ -189,8 +200,11 @@ function MyCalendar() {
                   saveChange(
                     moment(start).format('YYYY-MM-DD HH:mm:ss'),
                     moment(end).format('YYYY-MM-DD HH:mm:ss'),
+                    /* eslint-disable */
                     { reason }.reason,
-                  )}
+                    /* eslint-disable */
+                  )
+                }
                 variant="contained"
                 className="saveChangeButton"
               >

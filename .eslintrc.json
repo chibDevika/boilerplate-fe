@@ -25,6 +25,7 @@
   "rules": {
     "react-hooks/exhaustive-deps": "error",
     "react/jsx-boolean-value": 0,
+    "prefer-destructuring": 0,
     "prettier/prettier": [
       "error",
       {
@@ -38,6 +39,7 @@
       }
     ],
     "react/state-in-constructor": "off",
+    "object-curly-newline": 0,
     "react/jsx-closing-bracket-location": [
       1,
       { "selfClosing": "line-aligned", "nonEmpty": "after-props" }
@@ -50,7 +52,7 @@
     "react/jsx-one-expression-per-line": 0,
     "no-plusplus": 0,
     "no-console": ["error"],
-    "react/jsx-wrap-multilines": 0,
+    // "react/jsx-wrap-multilines": 0,
     "no-param-reassign": [
       "error",
       {
