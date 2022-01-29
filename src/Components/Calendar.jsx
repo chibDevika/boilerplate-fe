@@ -185,14 +185,14 @@ function MyCalendar() {
         setButtonClick(true);
         setResponseText('Deleted Leave Successfully!');
         updateCalendar();
-        removeErrorMessage();
+        removeSuccessMessage();
       })
       .catch((error) => {
         setButtonClick(true);
         setResponseText(error.response.data.non_field_errors.toString());
         removeErrorMessage();
       });
-  }, [leaveID, updateCalendar, removeErrorMessage]);
+  }, [leaveID, updateCalendar, removeErrorMessage, removeSuccessMessage]);
 
   const handleDeleteLeave = useCallback(
     (event) => {
