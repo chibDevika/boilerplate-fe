@@ -38,6 +38,10 @@ function MyCalendar() {
     navigate('/');
   }, [navigate]);
 
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
   const removeErrorMessage = useCallback(() => {
     setTimeout(() => {
       setButtonClick(false);
@@ -50,6 +54,7 @@ function MyCalendar() {
       setButtonClick(false);
       setResponseText('');
       handleClose();
+      refreshPage();
     }, 2000);
   }, [handleClose]);
 
@@ -154,8 +159,7 @@ function MyCalendar() {
         .then(() => {
           setButtonClick(true);
           setResponseText('Updated Leave Successfully!');
-          removeErrorMessage();
-          updateCalendar();
+          removeSuccessMessage();
         })
         .catch((error) => {
           setButtonClick(true);
@@ -163,7 +167,7 @@ function MyCalendar() {
           removeErrorMessage();
         });
     },
-    [leaveID, removeErrorMessage, updateCalendar],
+    [leaveID, removeErrorMessage, removeSuccessMessage],
   );
 
   const handleReasonChange = useCallback((event) => {
@@ -184,7 +188,6 @@ function MyCalendar() {
       .then(() => {
         setButtonClick(true);
         setResponseText('Deleted Leave Successfully!');
-        updateCalendar();
         removeSuccessMessage();
       })
       .catch((error) => {
@@ -192,7 +195,7 @@ function MyCalendar() {
         setResponseText(error.response.data.non_field_errors.toString());
         removeErrorMessage();
       });
-  }, [leaveID, updateCalendar, removeErrorMessage, removeSuccessMessage]);
+  }, [leaveID, removeErrorMessage, removeSuccessMessage]);
 
   const handleDeleteLeave = useCallback(
     (event) => {
