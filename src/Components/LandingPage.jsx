@@ -43,7 +43,9 @@ function LandingPage() {
     axios({
       method: 'get',
       /* eslint-disable */
-      url: `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${localStorage.getItem('access_token')}`,
+      url: `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${localStorage.getItem(
+        'access_token',
+      )}`,
       /* eslint-disable */
     }).then((response) => {
       sendPostRequest(response);

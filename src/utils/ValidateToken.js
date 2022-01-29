@@ -27,7 +27,6 @@ const generateAccessToken = async () => {
 export async function validateAccessToken() {
   await axios({
     method: 'get',
-    /* eslint-disable */
     url: `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${localStorage.getItem(
       'access_token',
     )}`,
@@ -39,7 +38,7 @@ export async function validateAccessToken() {
       } else {
         const response = generateAccessToken();
         response.then((r) => {
-          return r;
+          return res;
         });
       }
     })
