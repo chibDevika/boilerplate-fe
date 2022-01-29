@@ -40,8 +40,8 @@ function HomePage() {
     setTimeout(() => {
       setButtonClick(false);
       setResponseText('');
+      refreshPage();
     }, 2000);
-    refreshPage();
   }, []);
 
   const sendRequest = useCallback(
