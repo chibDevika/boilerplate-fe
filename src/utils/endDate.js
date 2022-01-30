@@ -13,4 +13,3 @@ export function endDate() {
     return [date.getFullYear(), month, day].join('-');
   }
 }
-/* eslint-disable */

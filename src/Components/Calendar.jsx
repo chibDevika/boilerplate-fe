@@ -233,7 +233,6 @@ function MyCalendar() {
                   updateDate={(startingTime) =>
                     setStartDate(moment(startingTime))
                   }
-                  /* eslint-disable */
                 />
               </div>
               <div className="inputBox">
@@ -274,7 +273,6 @@ function MyCalendar() {
                         moment(end).format('YYYY-MM-DD HH:mm:ss'),
                         /* eslint-disable */
                         { reason }.reason,
-                        /* eslint-disable */
                       )
                     }
                     color="success"
