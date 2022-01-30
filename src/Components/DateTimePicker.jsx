@@ -14,7 +14,6 @@ export default function DateTimePickerComponent(props) {
         onChange={(value) => {
           props.updateDate(value);
         }}
-      /* eslint-disable */
       />
     </LocalizationProvider>
   );

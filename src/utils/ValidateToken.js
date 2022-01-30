@@ -37,7 +37,7 @@ export async function validateAccessToken() {
         return res;
       } else {
         const response = generateAccessToken();
-        response.then((r) => {
+        response.then(() => {
           return res;
         });
       }
