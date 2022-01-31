@@ -174,11 +174,15 @@ function MyCalendar() {
     setReason(event.target.value);
   }, []);
 
+  /* eslint-disable */
   const sendDeleteRequest = useCallback(() => {
     axios({
       method: 'patch',
       url: `leaves/leaves/${leaveID}/`,
       data: {
+        started_at: start,
+        ended_at: end,
+        reason: reason,
         is_active: false,
       },
       headers: {
@@ -195,7 +199,7 @@ function MyCalendar() {
         setResponseText(error.response.data.non_field_errors.toString());
         removeErrorMessage();
       });
-  }, [leaveID, removeErrorMessage, removeSuccessMessage]);
+  }, [leaveID, removeErrorMessage, removeSuccessMessage, reason, start, end]);
 
   const handleDeleteLeave = useCallback(
     (event) => {
